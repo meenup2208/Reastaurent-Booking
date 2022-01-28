@@ -1,0 +1,88 @@
+﻿@model RestaurentMVC.Models.Booking
+@using BookingClassLibrary.Enum;
+
+
+<form name="delete_form">
+
+    <div class="container" style="background-color:black">
+        <br />
+        <h1 style="text-align:center;color:wheat">RESTAURANT RESERVATION SYSTEM</h1>
+
+        <h3 style="text-align:center;color:wheat">Are you sure you want to delete this?</h3>
+        <div>
+
+            <hr />
+            <dl class="dl-horizontal" style="color: antiquewhite;padding-left:5rem ">
+                <dt>
+                    <label>Dining  Id  :  </label>
+                </dt>
+                
+                <dd>
+                    @Html.HiddenFor(model => model.Bookid, new { @id = "id" })
+                    @*@Html.DisplayFor(model => model.Bookid)*@
+                </dd>
+
+                <br />
+
+                <dt>
+                    <label>Booking Name   :  </label>
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+
+                <br />
+
+
+
+                <dt>
+                    <label>Dining Type  :   </label>
+
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.TypeOfDining)
+                </dd>
+
+                <br />
+
+                <dt>
+                    <label> Date of Dining  :  </label>
+
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Date)
+                </dd>
+
+                <br />
+
+                <dt>
+                    <label> Time of Dining  :  </label>
+
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Time)
+                </dd>
+
+                <br />
+
+
+
+
+
+            </dl>
+
+        </div>
+
+    </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" id="delete" class="btn btn-primary" onclick="deletedataconfirm()">Delete</button>
+
+            </div>
+
+
+</form>

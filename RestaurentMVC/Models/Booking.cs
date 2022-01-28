@@ -1,12 +1,12 @@
-﻿using Nest;
+﻿using BookingClassLibrary.Enum;
+using Nest;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 
-namespace BookingClassLibrary
+namespace RestaurentMVC.Models
 {
     public class Booking
     {
@@ -31,12 +31,9 @@ namespace BookingClassLibrary
         public int Guest { get; set; }
 
         public bool Delete { get; set; }
+
+        public Operations operations { get; set; }
+
     }
-    public enum Operation
-    {
-        Create,
-        View,
-        Edit,
-        Delete
-    }
+    
 }

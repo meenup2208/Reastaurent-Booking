@@ -206,3 +206,7 @@ D:\Project\ProjectFiles\RestBookAPI\obj\Debug\RestBookAPI.csproj.CoreCompileInpu
 D:\Project\ProjectFiles\RestBookAPI\obj\Debug\RestBookAPI.csproj.CopyComplete
 D:\Project\ProjectFiles\RestBookAPI\obj\Debug\RestBookAPI.dll
 D:\Project\ProjectFiles\RestBookAPI\obj\Debug\RestBookAPI.pdb
+D:\Reastaurent-\RestBookAPI\obj\Debug\RestBookAPI.csproj.AssemblyReference.cache
+D:\Reastaurent-\RestBookAPI\obj\Debug\RestBookAPI.csproj.CoreCompileInputs.cache
+D:\Reastaurent-\RestBookAPI\obj\Debug\RestBookAPI.dll
+D:\Reastaurent-\RestBookAPI\obj\Debug\RestBookAPI.pdb

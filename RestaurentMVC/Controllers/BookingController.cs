@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using BookingClassLibrary;
+using RestaurentMVC.Models;
+using BookingClassLibrary.Enum;
+
+
 namespace RestaurentMVC.Controllers
 {
     public class BookingController : Controller
@@ -14,9 +17,15 @@ namespace RestaurentMVC.Controllers
             return View();
         }
 
-        public ActionResult Create()
+        [HttpGet]
+        public ActionResult Create(string Operation)
         {
-            return View();
+            Booking booking = new Booking();
+            if (Operation == Operations.Create.ToString())
+            {
+                booking.operations = Operations.Create;
+            }
+            return PartialView("_Operations", booking);
         }
 
         [HttpPost]
@@ -33,64 +42,87 @@ namespace RestaurentMVC.Controllers
                         ViewBag.Message = "Booking Created Successfully";
                         ModelState.Clear();
                     }
-                    return RedirectToAction("Index");
+                    return Json(true, JsonRequestBehavior.AllowGet);
                 }
 
-                return View();
+                return Json(true, JsonRequestBehavior.AllowGet);
             }
             catch
             {
 
-                return View();
+                return Json(true, JsonRequestBehavior.AllowGet);
             }
         }
 
-
-        public ActionResult Edit(int Bookid)
+        [HttpGet]
+        public ActionResult Edit(string Operation, int Bookid)
         {
 
             try
             {
                 RestaurentBook sdb = new RestaurentBook();
-                return View(sdb.GetBookingsById(Bookid));
+                Booking booking = sdb.GetBookingsById(Bookid);
+
+                if (Operation == Operations.Edit.ToString())
+                {
+                    booking.operations = Operations.Edit;
+                }
+                return PartialView("_Operations", booking);
             }
             catch
             {
-                return View();
+                return PartialView();
             }
         }
 
-        
+
 
         [HttpPost]
-        public ActionResult Edit(int Bookid, Booking bmodel)
+        public ActionResult Edit(Booking bmodel)
         {
             try
             {
 
-                RestaurentBook sdb = new RestaurentBook();
-                sdb.UpdateDetails(bmodel);
-                return RedirectToAction("Index");
+                
+                if (ModelState.IsValid)
+                {
+                    RestaurentBook sdb = new RestaurentBook();
+                    if (sdb.UpdateDetails(bmodel))
+                    {
+                        ViewBag.Message = "Booking Updated";
+                        ModelState.Clear();
+                    }
+                    return Json(true, JsonRequestBehavior.AllowGet);
+                }
+
+                return Json(true, JsonRequestBehavior.AllowGet);
             }
             catch
             {
-                return View();
+                return PartialView();
             }
+
         }
 
 
-        
-        
-        public ActionResult Delete(int? Bookid)
+
+
+        [HttpGet]
+        public ActionResult Delete(string Operation,int Bookid)
         {
             try
             {
                 RestaurentBook sdb = new RestaurentBook();
-                return View(sdb.GetBookingsById((int)Bookid));
+                Booking booking = sdb.GetBookingsById(Bookid);
+                if (Operation == Operations.Delete.ToString())
+                {
+                    booking.operations = Operations.Delete;
+                }
+                return PartialView("_Delete", booking);
             }
             catch
             {
-                return View();
+                return PartialView();
             }
         }
 
@@ -103,12 +135,13 @@ namespace RestaurentMVC.Controllers
                 if (sdb.DeleteBooking(Bookid))
                 {
                     ViewBag.AlertMsg = " Deleted Successfully";
+                    return Json(true, JsonRequestBehavior.AllowGet);
                 }
-                return RedirectToAction("Index");
+                return Json(true, JsonRequestBehavior.AllowGet);
             }
             catch
             {
-                return View();
+                return PartialView();
             }
         }
 

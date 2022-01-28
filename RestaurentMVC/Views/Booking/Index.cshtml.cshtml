@@ -5,15 +5,15 @@
 }
 
 
-<meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width" />
 
-<title>Bookings</title>
-
-<script>
+    <title>Bookings</title>
+    
+        <script>
             var dataTable;
             $(document).ready(function () {
 
-                dataTable=$('#myBookings').DataTable(
+                $('#myBookings').DataTable(
 
                     {
                         "processing": true,
@@ -91,7 +91,7 @@
                 $.get("/Booking/Delete", { operation: "Delete", Bookid: id }, function (result) {
 
                     $('#modelbody1').html(result);
-                    $('#exampleModal').modal('show');
+                    $('#exampleModal').modal('show');                  
 
                 })
             }
@@ -137,7 +137,7 @@
             }
 
             function deletedata() {
-
+                
                     var form = $('form[name="delete_form"]');
                     var modal = $('#exampleModal');
 
@@ -156,65 +156,65 @@
                             }
                         })
                     }
-
+                
             }
 
-</script>
+        </script>
 
-
-
-<div>
-    <br /><br />
-    <div>
-        <h1 style="text-align:center">RESTAURANT RESERVATION SYSTEM</h1>
-        <h1 style="text-align:center">All Bookings</h1>
-
-        <div style="align-self:center">
-
-            <button type="button" class="btn btn-primary" onclick="createpopup()">
-                <h2>New Booking</h2>
-            </button>
-
-        </div>
 
 
         <div>
+            <br /><br />
+            <div>
+                <h1 style="text-align:center">RESTAURANT RESERVATION SYSTEM</h1>
+                <h1 style="text-align:center">All Bookings</h1>
 
-            <table id="myBookings" class="ui celled table">
+                <div style="align-self:center">
 
-                <thead>
+                    <button type="button" class="btn btn-primary" onclick="createpopup()">
+                        <h2>New Booking</h2>
+                    </button>
 
-                    <tr>
+                </div>
 
 
-                        <th>Name</th>
+                <div>
 
-                        <th>Phone</th>
+                    <table id="myBookings" class="ui celled table">
 
-                        <th>Dining Type</th>
+                        <thead>
 
-                        <th>Date</th>
+                            <tr>
 
-                        <th>Time</th>
 
-                        <th>Guest</th>
+                                <th>Name</th>
 
-                        <th></th>
+                                <th>Phone</th>
 
-                    </tr>
+                                <th>Dining Type</th>
 
-                </thead>
+                                <th>Date</th>
 
-            </table>
+                                <th>Time</th>
+
+                                <th>Guest</th>
+
+                                <th></th>
+
+                            </tr>
+
+                        </thead>
+
+                    </table>
+
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content" id="modelbody1">
+
+                </div>
+            </div>
 
         </div>
-    </div>
-</div>
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content" id="modelbody1">
-
-        </div>
-    </div>
-
-</div>
