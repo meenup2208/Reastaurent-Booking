@@ -60,10 +60,11 @@
 
             function createpopup() {
                 $.get("/Booking/Create", { operation: "Create" }, function (result) {
-
+                    
                     $('#modelbody1').html(result);
+                    
                     $('#exampleModal').modal('show');
-                    //$('#edit').prop('disabled', 'true');
+                    
                     var edit = document.getElementById("edit");
                     edit.style.display = 'none';
                     var save_edit = document.getElementById("save_edit");
@@ -77,8 +78,7 @@
 
                     $('#modelbody1').html(result);
                     $('#exampleModal').modal('show');
-                    //$('#save').prop('disabled', 'true');
-                    //$('#save_edit').prop('disabled', 'true');
+                    
                     var save = document.getElementById("save");
                     save.style.display = 'none';
                     var save_edit = document.getElementById("save_edit");
@@ -178,7 +178,7 @@
             </button>
         </div>
         
-        <br /><br />
+        <br />
 
         <div>
 
