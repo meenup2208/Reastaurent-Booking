@@ -136,13 +136,13 @@
                 }
             }
 
-            function deletedata() {
+                function deletedataconfirm() {
 
                     var form = $('form[name="delete_form"]');
                     var modal = $('#exampleModal');
 
                     form.validate();
-                    console.log(form.validate());
+                    
 
                     if (!form.valid()) {
                         return;
@@ -169,14 +169,16 @@
         <h1 style="text-align:center">RESTAURANT RESERVATION SYSTEM</h1>
         <h1 style="text-align:center">All Bookings</h1>
 
-        <div style="align-self:center">
+       
+
+        <div style="display: flex; justify-content: center; align-items: center;">
 
             <button type="button" class="btn btn-primary" onclick="createpopup()">
-                <h2>New Booking</h2>
+                New Booking
             </button>
-
         </div>
-
+        
+        <br /><br />
 
         <div>
 
