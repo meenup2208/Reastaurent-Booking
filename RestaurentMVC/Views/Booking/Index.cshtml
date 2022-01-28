@@ -100,7 +100,8 @@
                 var form = $('form[name="operation_form"]');
                 var modal = $('#exampleModal');
 
-                form.validate();
+                form.validate(
+                );
 
                 if (!form.valid()) {
                     return;
@@ -136,19 +137,47 @@
                 }
             }
 
-                function deletedataconfirm() {
+                function deletedataconfirm()
+                {
 
                     var form = $('form[name="delete_form"]');
                     var modal = $('#exampleModal');
 
-                    form.validate();
+                    $("#operation_form").validate({
+                            rules: {
+                                name: "required",
+                                phone: { required: true, minlength: 10 },
+                                TypeOfDining: "required",
+                                date: "required",
+                                time: "required",
+                                guest: { required: true, maxlength:100 }
+                            },
+
+                            alert: {
+                                name: "Please fill name",
+
+                                phone: {
+                                    minlength: "Please enter Valid Mobile No.",
+                                    required: "Please enter Mobile No."
+                                },
+                                TypeOfDining: "Select the dining type",
+                                date: "Choose date",
+                                time: "Please fill time",                                
+                                name: {
+                                    required: "Enter Number of Guests",
+                                    maxlength : "Guests number less than 100"
+                                }
+                            }
+
+                        });
                     
 
                     if (!form.valid()) {
-                        return;
+                        return ;
                     }
                     else {
                         var data = form.serialize();
+                        
                         $.post("/Booking/Delete", data, function (result) {
                             if (result) {
                                 modal.modal('hide');
@@ -157,7 +186,11 @@
                         })
                     }
 
-            }
+                }
+
+    
+
+
 
 </script>
 
