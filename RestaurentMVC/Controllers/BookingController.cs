@@ -160,6 +160,12 @@ namespace RestaurentMVC.Controllers
 
                 List<Booking> List = obj.GetBookings(pagenumber,pagesize,search);
 
+                for (int i = 0; i < List.Count; i++)
+                {
+                    var dob = DateTime.Parse(List[i].Date);
+                    List[i].Date = dob.ToString("dd-MM-yyyy");
+                }
+
                 return Json(new { data = List }, JsonRequestBehavior.AllowGet);
 
 
