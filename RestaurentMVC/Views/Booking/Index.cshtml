@@ -19,7 +19,7 @@
                         "processing": true,
                         "serverSide": true,
                         "filter": true,
-
+                        "bInfo": false,
                         "ajax": {
 
                             "url": "/Booking/Bookinglist",
@@ -48,7 +48,7 @@
                             {
                                 "data": "Bookid",
                                 "render": function (data, type, full, meta) {
-                                    return ('<button class="btn btn-success" onclick="getdata(' + full.Bookid + ')">View</button>   <button class="btn btn-danger" onclick="deletedata(' + full.Bookid +')">Delete</button>');
+                                    return ('<button class="btn btn-warning" onclick="getdata(' + full.Bookid + ')">View</button> <button class="btn btn-info" onclick="geteditdata(' + full.Bookid + ')">Edit</button>  <button class="btn btn-danger" onclick="deletedata(' + full.Bookid +')">Delete</button>');
                                 }
                             },
 
@@ -74,7 +74,7 @@
             }
 
             function getdata(id) {
-                $.get("/Booking/Edit", { operation: "Edit", Bookid: id }, function (result) {
+                $.get("/Booking/View", { operation: "View", Bookid: id }, function (result) {
 
                     $('#modelbody1').html(result);
                     $('#exampleModal').modal('show');
@@ -83,6 +83,20 @@
                     save.style.display = 'none';
                     var save_edit = document.getElementById("save_edit");
                     save_edit.style.visibility = 'hidden';
+
+                })
+            }
+
+            function geteditdata(id) {
+                $.get("/Booking/Edit", { operation: "Edit", Bookid: id }, function (result) {
+
+                    $('#modelbody1').html(result);
+                    $('#exampleModal').modal('show');
+                    var save = document.getElementById("save");
+                    save.style.display = 'none';
+                    var edit = document.getElementById("edit");
+                    edit.style.visibility = 'hidden';
+                    
 
                 })
             }
@@ -137,6 +151,7 @@
                     $.post("/Booking/Create", data, function (result) {
                         if (result) {
                             modal.modal('hide');
+                            
                             dataTable.ajax.reload();
                         }
                     })
@@ -204,9 +219,9 @@
 
        
 
-        <div style="display: flex; justify-content: center; align-items: center;">
+        <div >
 
-            <button type="button" class="btn btn-primary" onclick="createpopup()">
+            <button type="button" class="btn btn-success" onclick="createpopup()">
                 New Booking
             </button>
         </div>
@@ -230,7 +245,7 @@
 
                         <th>Date</th>
 
-                        <th>Time</th>
+                        <th>Time (24 Hr Format)</th>
 
                         <th>Guest</th>
 
@@ -247,7 +262,7 @@
 </div>
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <div class="modal-content" id="modelbody1">
+        <div class="modal-content" id="modelbody1" >
 
         </div>
     </div>

@@ -75,10 +75,29 @@ namespace RestaurentMVC.Controllers
             }
         }
 
+        [HttpGet]
+        public ActionResult View(string Operation, int Bookid)
+        {
 
+            try
+            {
+                RestaurentBook sdb = new RestaurentBook();
+                Booking booking = sdb.GetBookingsById(Bookid);
+
+                if (Operation == Operations.View.ToString())
+                {
+                    booking.operations = Operations.View;
+                }
+                return PartialView("_Operations", booking);
+            }
+            catch
+            {
+                return PartialView();
+            }
+        }
 
         [HttpPost]
-        public ActionResult Edit(Booking bmodel)
+        public ActionResult Edit(Booking booking)
         {
             try
             {
@@ -87,7 +106,7 @@ namespace RestaurentMVC.Controllers
                 if (ModelState.IsValid)
                 {
                     RestaurentBook sdb = new RestaurentBook();
-                    if (sdb.UpdateDetails(bmodel))
+                    if (sdb.UpdateDetails(booking))
                     {
                         ViewBag.Message = "Booking Updated";
                         ModelState.Clear();

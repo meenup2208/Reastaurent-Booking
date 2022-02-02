@@ -5,13 +5,13 @@
 <form name="operation_form" id="operation_form">
     
                 <div class="modal-header">
-                    <h1 style="text-align:center;color:black">RESTAURANT RESERVATION SYSTEM</h1>
+                    <h2 style="text-align:center;color:black">RESTAURANT RESERVATION SYSTEM</h2>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="container" style="background-color:black">
+                    <div  style="background-color:black">
                         @using (Html.BeginForm())
                         {
                             @Html.AntiForgeryToken()
@@ -26,12 +26,12 @@
                             <div>
                                 <div class="form-horizontal">
                                     <div class="form-group">
-                                        <div style="color:antiquewhite">
+                                        <div style="color: antiquewhite;">
                                             @Html.LabelFor(model => model.Name, "Name", htmlAttributes: new { @class = "control-label col-md-2" })
                                         </div>
                                         <div class="col-md-10">
                                             @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control"} })
-                                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger", @id = "name" })
+                                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger", @id = "name" ,@style="position:absolute"})
                                             
                                         </div>
                                     </div>
@@ -93,7 +93,7 @@
                                     <br />
 
 
-                                    <br /><br />
+                                    
                                 </div>
                             </div>
                         }
@@ -107,10 +107,11 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
                     <button type="button" id="save" class="btn btn-primary" onclick="savechanges()">Save</button>
                     <button type="button" id="edit" class="btn btn-primary" onclick="editchanges()">Edit Details</button>
                     <button type="button" id="save_edit" class="btn btn-primary" onclick="save_editedchanges()">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             
 
@@ -122,17 +123,18 @@
 
         var operation = '@Model.operations.ToString()';
 
-        if (operation == '@Operations.Create')
+        if (operation == '@Operations.Create  ' )
         {
-            
+
             $('.form-control').attr('disabled', false);
         }
-        if (operation == '@Operations.Edit')
+        
+        if (operation == '@Operations.View')
         {
 
             $('.form-control').attr('disabled', true);
         }
-        
+
 
     });
 
@@ -146,7 +148,7 @@
         edit.style.display = 'none';
         var edit = document.getElementById("save_edit");
         edit.style.visibility = 'visible';
-        
+
     }
 
 </script>
