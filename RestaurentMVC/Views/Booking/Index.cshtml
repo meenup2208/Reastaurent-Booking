@@ -20,6 +20,14 @@
                         "serverSide": true,
                         "filter": true,
                         "bInfo": false,
+                        "order": [0, "asc"],
+
+                        "columnDefs": [
+                            { "targets": [0], orderable: false },
+                            { "targets": [2], orderable: false },
+                            { "targets": [5], orderable: false },
+                            { "targets": [7], orderable: false }
+                        ],
                         "ajax": {
 
                             "url": "/Booking/Bookinglist",
@@ -31,25 +39,41 @@
                         },
 
                         "columns": [
+                            {
+                                
+                                render: function (data, type, row, meta) {
+                                    return meta.row + meta.settings._iDisplayStart + 1;
+                                }
+                            },
 
+                            { "data": "Name", "autoWidth": true},
 
-                            { "data": "Name" },
+                            { "data": "Phone", "autoWidth": true },
 
-                            { "data": "Phone" },
+                            { "data": "TypeOfDining", "autoWidth": true },
 
-                            { "data": "TypeOfDining" },
+                            {
+                                "data": "Date",
+                                "type": "datetime",
+                                "render": function (value) {
+                                    if (value === null) return "";
+                                    var pattern = /Date\(([^)]+)\)/;
+                                    var results = pattern.exec(value);
+                                    var dt = new Date(parseFloat(results[1]));
+                                    return dt.getDate() + "/" + (dt.getMonth() + 1) + "/" + dt.getFullYear()
+                                },
+                                 "autoWidth": true
+                            },
 
-                            { "data": "Date" },
+                            { "data": "Time", "autoWidth": true},
 
-                            { "data": "Time" },
-
-                            { "data": "Guest" },
+                            { "data": "Guest", "autoWidth": true},
 
                             {
                                 "data": "Bookid",
                                 "render": function (data, type, full, meta) {
-                                    return ('<button class="btn btn-warning" onclick="getdata(' + full.Bookid + ')">View</button> <button class="btn btn-info" onclick="geteditdata(' + full.Bookid + ')">Edit</button>  <button class="btn btn-danger" onclick="deletedata(' + full.Bookid +')">Delete</button>');
-                                }
+                                    return ('<button class="btn btn-info" onclick="getdata(' + full.Bookid + ')">View</button> <button class="btn btn-warning" onclick="geteditdata(' + full.Bookid + ')">Edit</button>  <button class="btn btn-danger" onclick="deletedata(' + full.Bookid +')">Delete</button>');
+                                }, "autoWidth": true
                             },
 
                         ]
@@ -81,8 +105,8 @@
                     
                     var save = document.getElementById("save");
                     save.style.display = 'none';
-                    var save_edit = document.getElementById("save_edit");
-                    save_edit.style.visibility = 'hidden';
+                    
+                    $('#save_edit').prop('disabled','true');
 
                 })
             }
@@ -111,38 +135,14 @@
             }
 
             function savechanges() {
-                var form = $('form[name="operation_form"]');
+                var form = $('form[name="operationForm"]');
                 var modal = $('#exampleModal');
-
-
-                form.validate({
-                    rules: {
-                        name: "required",
-                        phone: { required: true, minlength: 10 },
-                        TypeOfDining: "required",
-                        date: "required",
-                        time: "required",
-                        guest: { required: true, maxlength: 100 }
-                    },
-
-                    messages: {
-                        name: "Please fill name",
-
-                        phone: {
-                            minlength: "Please enter Valid Mobile No.",
-                            required: "Please enter Mobile No."
-                        },
-                        TypeOfDining: "Select the dining type",
-                        date: "Choose date",
-                        time: "Please fill time",
-                        name: {
-                            required: "Enter Number of Guests",
-                            maxlength: "Guests number less than 100"
-                        }
-                    }
-
-                });
-
+                nameValidation();
+                validateGuest();
+                validateTime();
+                validatePhone();
+                form.validate();
+               
                 if (!form.valid()) {
                     return;
                 }
@@ -150,8 +150,16 @@
                     var data = form.serialize();
                     $.post("/Booking/Create", data, function (result) {
                         if (result) {
-                            modal.modal('hide');
-                            
+
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'Booking Created Successfully',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+
+                            modal.modal('hide');                            
                             dataTable.ajax.reload();
                         }
                     })
@@ -171,6 +179,13 @@
                     var data = form.serialize();
                     $.post("/Booking/Edit", data, function (result) {
                         if (result) {
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'Booking Edited Successfully',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
                             modal.modal('hide');
                             dataTable.ajax.reload();
                         }
@@ -195,6 +210,13 @@
                         
                         $.post("/Booking/Delete", data, function (result) {
                             if (result) {
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: 'Booking Deleted Successfully',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
                                 modal.modal('hide');
                                 dataTable.ajax.reload();
                             }
@@ -219,7 +241,7 @@
 
        
 
-        <div >
+        <div  >
 
             <button type="button" class="btn btn-success" onclick="createpopup()">
                 New Booking
@@ -228,14 +250,14 @@
         
         <br />
 
-        <div>
+        <div >
 
-            <table id="myBookings" class="ui celled table">
-
-                <thead>
-
+            <table id="myBookings" class="table" >
+                
+                <thead class="thead-light">
+                    
                     <tr>
-
+                        <th>Sl.No</th>
 
                         <th>Name</th>
 
@@ -249,7 +271,7 @@
 
                         <th>Guest</th>
 
-                        <th></th>
+                        <th>Action</th>
 
                     </tr>
 
@@ -260,9 +282,9 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div data-backdrop="static" class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
     <div class="modal-dialog" role="document">
-        <div class="modal-content" id="modelbody1" >
+        <div class="modal-content" id="modelbody1" style="width:90%;" >
 
         </div>
     </div>

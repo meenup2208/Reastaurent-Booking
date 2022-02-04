@@ -4,12 +4,12 @@
 
 <form name="delete_form">
 
-    <div  style="background-color:black">
+    <div  style="">
         <br />
         
 
-        <h3 style="text-align:center;color:wheat">Are you sure you want to delete this?</h3>
-        <div>
+        <h3 style="text-align:center;color:red">Are you sure you want to delete this?</h3>
+        <div style="padding-left: 10%; background-color: black">
 
             <hr />
             <dl class="dl-horizontal" style="color: antiquewhite;padding-left:5rem ">
@@ -45,27 +45,7 @@
 
                 <br />
 
-                <dt>
-                    <label> Date of Dining  :  </label>
-
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.Date)
-                </dd>
-
-                <br />
-
-                <dt>
-                    <label> Time of Dining  :  </label>
-
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.Time)
-                </dd>
-
-                <br />
+                
 
 
 
@@ -76,11 +56,10 @@
         </div>
 
     </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" id="delete" class="btn btn-primary" onclick="deletedataconfirm()">Delete</button>
-
-            </div>
+    <div class="modal-footer">
+        <button type="button" id="delete" class="btn btn-danger" onclick="deletedataconfirm()">Delete</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    </div>
 
 
 </form>

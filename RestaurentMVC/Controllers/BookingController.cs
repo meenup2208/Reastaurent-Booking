@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Dynamic;
 using System.Web;
 using System.Web.Mvc;
 using RestaurentMVC.Models;
@@ -36,8 +37,8 @@ namespace RestaurentMVC.Controllers
 
                 if (ModelState.IsValid)
                 {
-                    RestaurentBook sdb = new RestaurentBook();
-                    if (sdb.AddBookings(bmodel))
+                    RestaurentBook restaurentBook = new RestaurentBook();
+                    if (restaurentBook.AddBookings(bmodel))
                     {
                         ViewBag.Message = "Booking Created Successfully";
                         ModelState.Clear();
@@ -60,9 +61,9 @@ namespace RestaurentMVC.Controllers
 
             try
             {
-                RestaurentBook sdb = new RestaurentBook();
-                Booking booking = sdb.GetBookingsById(Bookid);
-
+                RestaurentBook restaurentBook = new RestaurentBook();
+                Booking booking = restaurentBook.GetBookingsById(Bookid);
+               
                 if (Operation == Operations.Edit.ToString())
                 {
                     booking.operations = Operations.Edit;
@@ -81,9 +82,9 @@ namespace RestaurentMVC.Controllers
 
             try
             {
-                RestaurentBook sdb = new RestaurentBook();
-                Booking booking = sdb.GetBookingsById(Bookid);
-
+                RestaurentBook restaurentBook = new RestaurentBook();
+                Booking booking = restaurentBook.GetBookingsById(Bookid);
+                
                 if (Operation == Operations.View.ToString())
                 {
                     booking.operations = Operations.View;
@@ -105,8 +106,8 @@ namespace RestaurentMVC.Controllers
                 
                 if (ModelState.IsValid)
                 {
-                    RestaurentBook sdb = new RestaurentBook();
-                    if (sdb.UpdateDetails(booking))
+                    RestaurentBook restaurentBook = new RestaurentBook();
+                    if (restaurentBook.UpdateDetails(booking))
                     {
                         ViewBag.Message = "Booking Updated";
                         ModelState.Clear();
@@ -131,8 +132,8 @@ namespace RestaurentMVC.Controllers
         {
             try
             {
-                RestaurentBook sdb = new RestaurentBook();
-                Booking booking = sdb.GetBookingsById(Bookid);
+                RestaurentBook restaurentBook = new RestaurentBook();
+                Booking booking = restaurentBook.GetBookingsById(Bookid);
                 if (Operation == Operations.Delete.ToString())
                 {
                     booking.operations = Operations.Delete;
@@ -150,8 +151,8 @@ namespace RestaurentMVC.Controllers
         {
             try
             {
-                RestaurentBook sdb = new RestaurentBook();
-                if (sdb.DeleteBooking(Bookid))
+                RestaurentBook restaurentBook = new RestaurentBook();
+                if (restaurentBook.DeleteBooking(Bookid))
                 {
                     ViewBag.AlertMsg = " Deleted Successfully";
                     return Json(true, JsonRequestBehavior.AllowGet);
@@ -171,27 +172,31 @@ namespace RestaurentMVC.Controllers
         {
             try
             {
-                RestaurentBook obj = new RestaurentBook();
-
-                var pagenumber = Convert.ToInt32(Request.Form["start"]);
-                var pagesize = Convert.ToInt32( Request.Form["length"]);
+                RestaurentBook restaurentBook = new RestaurentBook();
+                
+                var start = Convert.ToInt32(Request.Form["start"]);
+                var length = Convert.ToInt32( Request.Form["length"]);
+                string sortColumnName = Request["columns[" + Request["order[0][column]"] + "][data]"];
+                string sortDirection = Request["order[0][dir]"];
                 var search = Request.Form["search[value]"];
 
-                List<Booking> List = obj.GetBookings(pagenumber,pagesize,search);
+                List<Booking> All_list = restaurentBook.AllBookings();
+                
+                int recordsTotal = 0;
+                List<Booking> List = restaurentBook.GetBookings(start, length, search);
+                List = List.OrderBy(sortColumnName + " " + sortDirection).ToList<Booking>();
 
-                for (int i = 0; i < List.Count; i++)
-                {
-                    var dob = DateTime.Parse(List[i].Date);
-                    List[i].Date = dob.ToString("dd-MM-yyyy");
-                }
-
-                return Json(new { data = List }, JsonRequestBehavior.AllowGet);
+                recordsTotal = All_list.Count();
+               
+                
+                
+                return Json(new { recordsTotal = recordsTotal, recordsFiltered = recordsTotal,  data = List}, JsonRequestBehavior.AllowGet);
 
 
             }
             catch
             {
-                return View();
+                return PartialView();
             }
         }
 

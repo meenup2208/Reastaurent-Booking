@@ -2,118 +2,119 @@
     @using BookingClassLibrary.Enum;
 
 
-<form name="operation_form" id="operation_form">
+<form name="operationForm" id="operation_form">
+
+    <div class="modal-header">
+
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h2 style="text-align:center;color:black">RESTAURANT RESERVATION</h2>
+    </div>
     
-                <div class="modal-header">
-                    <h2 style="text-align:center;color:black">RESTAURANT RESERVATION SYSTEM</h2>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div  style="background-color:black">
-                        @using (Html.BeginForm())
-                        {
-                            @Html.AntiForgeryToken()
+    <div class="modal-body">
+        <div style="background-color: #aab7b8; padding-left: 10%">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
 
-                            <br />
+                <br /><br />
 
-
-
-                            <hr />
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                            @Html.HiddenFor(model => model.Bookid)
-                            <div>
-                                <div class="form-horizontal">
-                                    <div class="form-group">
-                                        <div style="color: antiquewhite;">
-                                            @Html.LabelFor(model => model.Name, "Name", htmlAttributes: new { @class = "control-label col-md-2" })
-                                        </div>
-                                        <div class="col-md-10">
-                                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control"} })
-                                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger", @id = "name" ,@style="position:absolute"})
-                                            
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <div style="color:antiquewhite">
-                                            @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-2" })
-                                        </div>
-                                        <div class="col-md-10">
-                                            @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger", @id = "phone" })
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <div style="color:antiquewhite">
-                                            @Html.LabelFor(model => model.TypeOfDining, "Dining", htmlAttributes: new { @class = "control-label col-md-2" })
-                                        </div>
-                                        <div class="col-md-10">
-                                            <select class="form-control" name="TypeOfDining" id="TypeOfDining">
-                                                <option value="Indoor">Indoor</option>
-                                                <option value="Outdoor">Outdoor</option>
-                                                <option value="Terrace">Terrace</option>
-                                            </select>
-
-                                        </div>
-
-                                    </div>
-
-
-                                    <div class="form-group">
-                                        <div style="color:antiquewhite">
-                                            @Html.LabelFor(model => model.Date, "Date", htmlAttributes: new { @class = "control-label col-md-2" })
-                                        </div>
-                                        <div class="col-md-10">
-                                            @Html.EditorFor(model => model.Date, new { htmlAttributes = new { type = "date", @class = "form-control" } })
-                                            @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger", @id = "date" })
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <div style="color:antiquewhite">
-                                            @Html.LabelFor(model => model.Time, "Time ", htmlAttributes: new { @class = "control-label col-md-2" })
-                                        </div>
-                                        <div class="col-md-10">
-                                            @Html.EditorFor(model => model.Time, new { htmlAttributes = new { type = "time", @class = "form-control" } })
-                                            @Html.ValidationMessageFor(model => model.Time, "", new { @class = "text-danger", @id = "time" })
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <div style="color:antiquewhite">
-                                            @Html.LabelFor(model => model.Guest, "Guests", htmlAttributes: new { @class = "control-label col-md-2" })
-                                        </div>    <div class="col-md-10">
-                                            @Html.EditorFor(model => model.Guest, new { htmlAttributes = new { @class = "form-control" } })
-                                            @Html.ValidationMessageFor(model => model.Guest, "", new { @class = "text-danger", @id = "guest" })
-                                        </div>
-                                    </div>
-                                    <br />
-
-
-                                    
-                                </div>
+                
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.Bookid)
+                <div>
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <div >
+                                @Html.LabelFor(model => model.Name, "Name", htmlAttributes: new { @class = "control-label col-md-2" })
                             </div>
-                        }
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @onkeyup = "nameValidation()", @class = "form-control", @id = "name" } })
+                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger", @id = "validate_name", @style = "position:absolute" })
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div  >
+                                @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-2" })
+                            </div>
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" ,@id="phone",@onkeyup= "validatePhone()" } })
+                                @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger", @id = "phonevalidation", @style = "position:absolute" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div  >
+                                @Html.LabelFor(model => model.TypeOfDining, "Dining", htmlAttributes: new { @class = "control-label col-md-2" })
+                            </div>
+                            <div class="col-md-10">
+                                <select class="form-control" name="TypeOfDining" id="TypeOfDining">
+                                    
+                                    <option value="Indoor">Indoor</option>
+                                    <option value="Outdoor">Outdoor</option>
+                                    <option value="Terrace">Terrace</option>
+                                </select>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+                            <div  >
+                                @Html.LabelFor(model => model.Date, "Date", htmlAttributes: new { @class = "control-label col-md-2" })
+                            </div>
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @type = "date", @class = "form-control" , @Value = Model.Date.ToString("yyyy/MM/dd"),@min = "2022-02-02" } })
+                                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger", @id = "date", @style = "position:absolute" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div  >
+                                @Html.LabelFor(model => model.Time, "Time ", htmlAttributes: new { @class = "control-label col-md-2" })
+                            </div>
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Time, new { htmlAttributes = new { type = "time", @class = "form-control",@id="time" ,@onkeyup= "validateTime()" } })
+                                @Html.ValidationMessageFor(model => model.Time, "", new { @class = "text-danger", @id = "timevalidate", @style = "position:absolute" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div  >
+                                @Html.LabelFor(model => model.Guest, "Guests", htmlAttributes: new { @class = "control-label col-md-2" })
+                            </div>    <div class="col-md-10">
+                                @Html.EditorFor(model => model.Guest, new { htmlAttributes = new { @class = "form-control" , @id="guest", @onkeyup = "validateGuest()" ,@min="0",@max="100" } })
+                                @Html.ValidationMessageFor(model => model.Guest, "", new { @class = "text-danger", @id = "guestvalue", @style = "position:absolute" })
+                            </div>
+                        </div>
+                        <br />
+
+
 
                     </div>
-                    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
-                    <script src="~/Scripts/jquery.validate.min.js"></script>
-                    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-
-
                 </div>
+            }
 
-                <div class="modal-footer">
+        </div>
+        <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+        <script src="~/Scripts/jquery.validate.min.js"></script>
+        <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
 
-                    <button type="button" id="save" class="btn btn-primary" onclick="savechanges()">Save</button>
-                    <button type="button" id="edit" class="btn btn-primary" onclick="editchanges()">Edit Details</button>
-                    <button type="button" id="save_edit" class="btn btn-primary" onclick="save_editedchanges()">Save changes</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            
+
+    </div>
+
+    <div class="modal-footer">
+
+        <button type="button" id="save" class="btn btn-success" onclick="savechanges()">Save</button>
+        <button type="button" id="edit" class="btn btn-primary" onclick="editchanges()">Edit Details</button>
+        <button type="button" id="save_edit" class="btn btn-success" onclick="save_editedchanges()">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    </div>
+
 
 </form>
 
@@ -123,16 +124,24 @@
 
         var operation = '@Model.operations.ToString()';
 
-        if (operation == '@Operations.Create  ' )
+        if (operation == '@Operations.Create' )
         {
 
             $('.form-control').attr('disabled', false);
+
         }
-        
+        if (operation == '@Operations.Edit')
+
+        {
+            $('.form-control').attr('disabled', false);
+            $('#TypeOfDining').val('@Model.TypeOfDining');
+        }
         if (operation == '@Operations.View')
         {
 
             $('.form-control').attr('disabled', true);
+            $('#TypeOfDining').val('@Model.TypeOfDining');
+
         }
 
 
@@ -143,13 +152,97 @@
         $('.form-control').attr('disabled', false);
 
         var save = document.getElementById("save");
-        save.style.display='none';
-        var edit = document.getElementById("edit");
-        edit.style.display = 'none';
-        var edit = document.getElementById("save_edit");
-        edit.style.visibility = 'visible';
+        save.style.display = 'none';
+        document.getElementById("edit").disabled = true;
+        document.getElementById("save_edit").disabled = false;
 
     }
 
+    function newfunction() {
+        console.log("typed");
+    }
+    function nameValidation() {
+        var name = document.getElementById("name").value;
+        const specialChars = /^[A-z a-z]+$/;
+        if (name == "") {
+            document.getElementById("validate_name").textContent = "Name is required";
+
+        }
+        else if (document.operationForm.name.value.length > 0)
+        {
+            document.getElementById("validate_name").textContent = "";
+        }
+        else if (!$("#name").val().match(specialChars))
+        {
+            document.getElementById("validate_name").textContent = " Check name format ";
+        }
+        else if (!isNaN(name))
+        {
+            document.getElementById("validate_name").textContent = "Check name format";
+
+        }
+        else if (document.operationForm.name.value.length > 15)
+        {
+            document.getElementById("validate_name").textContent = "Large Name length ";
+
+        }
+        else if (document.operationForm.name.value.length < 3)
+        {
+            document.getElementById("validate_name").textContent = "Small Name length";
+        }
+        else
+        {
+            document.getElementById("validate_name").textContent = "";
+        }
+    }
+
+
+    function validateGuest() {
+        var guest = $("#guest").val();
+
+        if (guest == 0)
+        {
+            document.getElementById("guestvalue").textContent = "Please Enter Number of guest";
+
+        }
+
+        else if (guest < 0) {
+            document.getElementById("guestvalue").textContent = "Please Enter Number of guest";
+
+        }
+        else
+        {
+            document.getElementById("guestvalue").textContent = "";
+        }
+    }
+
+    function validateTime() {
+        if (document.operationForm.time.value == null)
+        {
+            document.getElementById("timevalidate").textContent = "Specify Checkin Time";
+
+        }
+
+    }
+
+
+    function validatePhone() {
+        var expression = /^[0-9]+$/;
+        if (!$("#phone").val().match(expression) && $("#phone").val() != "") {
+            $("#phonevalidation").html("Please Provide Valid Contact Number");
+        }
+        else if ($("#phone").val() == "") {
+            $("#phonevalidation").html("Contact Number is Required");
+        }
+        else if ($("#phone").val().length >= 11) {
+            $("#phonevalidation").html("Contact must contain only 10 characters");
+        }
+        else if ($("#phone").val().length <= 9) {
+            $("#phonevalidation").html("Contact Number Not Valid");
+        }
+        else {
+            $("#phonevalidation").html("");
+        }
+    }
 </script>
 

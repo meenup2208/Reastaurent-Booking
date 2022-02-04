@@ -23,7 +23,7 @@ namespace RestaurentMVC.Models
 
         [Date]
         [Required(ErrorMessage = "dd/mm/yyyy")]
-        public string Date { get; set; }
+        public DateTime Date { get; set; }
 
         public string Time { get; set; }
 
