@@ -167,11 +167,13 @@
             }
 
             function save_editedchanges() {
-                var form = $('form[name="operation_form"]');
+                var form = $('form[name="operationForm"]');
                 var modal = $('#exampleModal');
-
+                nameValidation();
+                validateGuest();
+                validateTime();
+                validatePhone();
                 form.validate();
-
                 if (!form.valid()) {
                     return;
                 }
