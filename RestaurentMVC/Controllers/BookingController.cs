@@ -51,7 +51,7 @@ namespace RestaurentMVC.Controllers
             catch
             {
 
-                return Json(true, JsonRequestBehavior.AllowGet);
+                throw;
             }
         }
 
@@ -72,7 +72,7 @@ namespace RestaurentMVC.Controllers
             }
             catch
             {
-                return PartialView();
+                throw;
             }
         }
 
@@ -93,7 +93,7 @@ namespace RestaurentMVC.Controllers
             }
             catch
             {
-                return PartialView();
+                throw;
             }
         }
 
@@ -119,7 +119,7 @@ namespace RestaurentMVC.Controllers
             }
             catch
             {
-                return PartialView();
+                throw;
             }
 
         }
@@ -142,7 +142,7 @@ namespace RestaurentMVC.Controllers
             }
             catch
             {
-                return PartialView();
+                throw;
             }
         }
 
@@ -161,7 +161,7 @@ namespace RestaurentMVC.Controllers
             }
             catch
             {
-                return PartialView();
+                throw;
             }
         }
 
@@ -180,7 +180,7 @@ namespace RestaurentMVC.Controllers
                 string sortDirection = Request["order[0][dir]"];
                 var search = Request.Form["search[value]"];
 
-                List<Booking> All_list = restaurentBook.AllBookings();
+                List<Booking> All_list = restaurentBook.AllBookings(search);
                 
                 int recordsTotal = 0;
                 List<Booking> List = restaurentBook.GetBookings(start, length, search);
@@ -189,14 +189,13 @@ namespace RestaurentMVC.Controllers
                 recordsTotal = All_list.Count();
                
                 
-                
                 return Json(new { recordsTotal = recordsTotal, recordsFiltered = recordsTotal,  data = List}, JsonRequestBehavior.AllowGet);
 
 
             }
             catch
             {
-                return PartialView();
+                throw;
             }
         }
 

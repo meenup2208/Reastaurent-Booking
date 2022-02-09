@@ -3,9 +3,10 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Restaurent Reservation System</title>
+    <title>Restaurant Reservation System</title>
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    
     <script src="~/Scripts/modernizr-2.8.3.js"></script>
 
     <!--Required jQuery file-->
@@ -28,8 +29,6 @@
 
     <!--semantic ui css file-->
 
-
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
 
 
@@ -41,39 +40,34 @@
 
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 
-    
-    <!--Sweet alert-->
 
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!--Sweet alert-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
 
 </head>
 <body>
+
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-              
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                </ul>
-            </div>
+
+            <h2 style=" padding-left: 25%;color:white "><b>RESTAURANT RESERVATION SYSTEM</b></h2>
+
         </div>
     </div>
-
-    <div class="container body-content">
+    <div class="container body-content ">
         @RenderBody()
         <hr />
-        <footer >
-            <p style="text-align:center"><b>&copy; @DateTime.Now.Year - Restaurent Reservation Application</b></p>
-        </footer>
-    </div>
 
+
+    </div>
+    @*<div style="background-color:white" class="navbar navbar-inverse navbar-fixed-bottom">
+            <footer>
+                <p style="text-align:center;"><b>&copy; @DateTime.Now.Year - Restaurent Reservation Application</b></p>
+            </footer>
+        </div>*@
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
 </body>

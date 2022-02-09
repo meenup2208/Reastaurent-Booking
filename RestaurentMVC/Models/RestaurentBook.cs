@@ -151,14 +151,14 @@ namespace RestaurentMVC.Models
             return booking;
 
         }
-        public List<Booking> AllBookings()
+        public List<Booking> AllBookings(string search)
         {
             connection();
             List<Booking> list = new List<Booking>();
 
             SqlCommand cmd = new SqlCommand("AllBookings", con);
             cmd.CommandType = CommandType.StoredProcedure;
-            
+            cmd.Parameters.AddWithValue("@search", search);
             SqlDataAdapter sd = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable();
 

@@ -4,29 +4,31 @@
 
 <form name="delete_form">
 
-    <div  style="">
+    <div style="">
         <br />
-        
+
 
         <h3 style="text-align:center;color:red">Are you sure you want to delete this?</h3>
-        <div style="padding-left: 10%; background-color: black">
+        <hr />
+        
+        <div style="padding-left: 10%; background-color: #aab7b8">
 
-            <hr />
-            <dl class="dl-horizontal" style="color: antiquewhite;padding-left:5rem ">
-                
-                
+
+            <dl class="dl-horizontal" style="padding-left:5rem">
+
+
                 <dd>
                     @Html.HiddenFor(model => model.Bookid, new { @id = "id" })
-                    @*@Html.DisplayFor(model => model.Bookid)*@
+                  
                 </dd>
 
-                <br />
+                <br/>
 
-                <dt>
+                <dt class="fontsize">
                     <label>Booking Name   :  </label>
                 </dt>
 
-                <dd>
+                <dd class="fontsize">
                     @Html.DisplayFor(model => model.Name)
                 </dd>
 
@@ -34,21 +36,16 @@
 
 
 
-                <dt>
+                <dt class="fontsize">
                     <label>Dining Type  :   </label>
 
                 </dt>
 
-                <dd>
+                <dd class="fontsize">
                     @Html.DisplayFor(model => model.TypeOfDining)
                 </dd>
 
                 <br />
-
-                
-
-
-
 
 
             </dl>

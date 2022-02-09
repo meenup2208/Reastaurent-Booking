@@ -18,7 +18,7 @@
             {
                 @Html.AntiForgeryToken()
 
-                <br /><br />
+                <br />
 
                 
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -68,8 +68,8 @@
                                 @Html.LabelFor(model => model.Date, "Date", htmlAttributes: new { @class = "control-label col-md-2" })
                             </div>
                             <div class="col-md-10">
-                                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @type = "date", @class = "form-control" , @Value = Model.Date.ToString("yyyy/MM/dd"),@min = "2022-02-02" } })
-                                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger", @id = "date", @style = "position:absolute" })
+                                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @type = "date", @class = "form-control" , @Value = Model.Date.ToString("yyyy/MM/dd") ,id="date",@min=DateTime.Today.ToString("yyyy/MM/dd") } })
+                                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger", @id = "valdate", @style = "position:absolute" })
                             </div>
                         </div>
 
@@ -87,7 +87,7 @@
                             <div  >
                                 @Html.LabelFor(model => model.Guest, "Guests", htmlAttributes: new { @class = "control-label col-md-2" })
                             </div>    <div class="col-md-10">
-                                @Html.EditorFor(model => model.Guest, new { htmlAttributes = new { @class = "form-control" , @id="guest", @onkeyup = "validateGuest()" ,@min="0",@max="100" } })
+                                @Html.EditorFor(model => model.Guest, new { htmlAttributes = new { @class = "form-control" , @id="guest", @onkeyup = "validateGuest()"  } })
                                 @Html.ValidationMessageFor(model => model.Guest, "", new { @class = "text-danger", @id = "guestvalue", @style = "position:absolute" })
                             </div>
                         </div>
@@ -109,8 +109,8 @@
 
     <div class="modal-footer">
 
-        <button type="button" id="save" class="btn btn-success" onclick="savechanges()">Save</button>
-        <button type="button" id="edit" class="btn btn-primary" onclick="editchanges()">Edit Details</button>
+        <button type="button" id="save" class="btn btn-success" onclick="savechanges()">Add</button>
+        <button type="button" id="edit" class="btn btn-warning" onclick="editchanges()">Edit Details</button>
         <button type="button" id="save_edit" class="btn btn-success" onclick="save_editedchanges()">Save changes</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
     </div>
@@ -128,7 +128,10 @@
         {
 
             $('.form-control').attr('disabled', false);
-
+            var today = '@DateTime.Today.ToString("yyyy/MM/dd")';
+            $("#date").val(today);
+            
+            $("#guest").val(1);
         }
         if (operation == '@Operations.Edit')
 
@@ -158,9 +161,7 @@
 
     }
 
-    function newfunction() {
-        console.log("typed");
-    }
+
     function nameValidation() {
         var name = document.getElementById("name").value;
         const specialChars = /^[A-z a-z]+$/;

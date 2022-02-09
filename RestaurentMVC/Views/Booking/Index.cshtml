@@ -1,4 +1,4 @@
-﻿@*@model BookingClassLibrary.Booking*@
+﻿
 
 @{
     ViewBag.Title = "Index";
@@ -19,14 +19,15 @@
                         "processing": true,
                         "serverSide": true,
                         "filter": true,
-                        "bInfo": false,
+                        
                         "order": [0, "asc"],
+                        "dom": '<"top"f>rt<"bottom"lpi><"clear">',
 
                         "columnDefs": [
-                            { "targets": [0], orderable: false },
-                            { "targets": [2], orderable: false },
-                            { "targets": [5], orderable: false },
-                            { "targets": [7], orderable: false }
+
+                            { "targets": [0,2,5,7], orderable: false, className:'dt-head-center dt-body-center' },
+                            { "targets": [1, 3, 4, 6], className: 'dt-head-center dt-body-center' },
+                            
                         ],
                         "ajax": {
 
@@ -72,16 +73,16 @@
                             {
                                 "data": "Bookid",
                                 "render": function (data, type, full, meta) {
-                                    return ('<button class="btn btn-info" onclick="getdata(' + full.Bookid + ')">View</button> <button class="btn btn-warning" onclick="geteditdata(' + full.Bookid + ')">Edit</button>  <button class="btn btn-danger" onclick="deletedata(' + full.Bookid +')">Delete</button>');
+                                    return ('<button class="btn btn-info" title="View" onclick="getdata(' + full.Bookid + ')"><span class="glyphicon glyphicon-eye-open"></span></button> <button class="btn btn-warning" title="Edit" onclick="geteditdata(' + full.Bookid + ')"><span class="glyphicon glyphicon-pencil"></button>  <button class="btn btn-danger"  title="Delete" onclick="deletedata(' + full.Bookid +')"><span class="glyphicon glyphicon-trash"></span></button>');
                                 }, "autoWidth": true
                             },
 
                         ]
 
                     });
-
+                
             });
-
+    
             function createpopup() {
                 $.get("/Booking/Create", { operation: "Create" }, function (result) {
                     
@@ -137,12 +138,13 @@
             function savechanges() {
                 var form = $('form[name="operationForm"]');
                 var modal = $('#exampleModal');
+
                 nameValidation();
                 validateGuest();
                 validateTime();
                 validatePhone();
                 form.validate();
-               
+                
                 if (!form.valid()) {
                     return;
                 }
@@ -150,22 +152,30 @@
                     var data = form.serialize();
                     $.post("/Booking/Create", data, function (result) {
                         if (result) {
-
-                            Swal.fire({
-                                position: 'center',
-                                icon: 'success',
-                                title: 'Booking Created Successfully',
-                                showConfirmButton: false,
-                                timer: 1500
-                            })
-
-                            modal.modal('hide');                            
-                            dataTable.ajax.reload();
+                            toastr.options = {
+                                "closeButton": true,
+                                "newestOnTop": false,
+                                "progressBar": true,
+                                "positionClass": "toast-bottom-right",
+                                "preventDuplicates": false,
+                                "onclick": null,
+                                "showDuration": "200",
+                                "hideDuration": "1000",
+                                "timeOut": "3000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            }
+                            toastr["success"]("Booking Created Successfully!")
+                            modal.modal('hide');
+                            dataTable.ajax.reload(null, false);
                         }
                     })
                 }
             }
-
+   
             function save_editedchanges() {
                 var form = $('form[name="operationForm"]');
                 var modal = $('#exampleModal');
@@ -181,29 +191,34 @@
                     var data = form.serialize();
                     $.post("/Booking/Edit", data, function (result) {
                         if (result) {
-                            Swal.fire({
-                                position: 'center',
-                                icon: 'success',
-                                title: 'Booking Edited Successfully',
-                                showConfirmButton: false,
-                                timer: 1500
-                            })
+                            toastr.options = {
+                                "closeButton": true,
+                                "newestOnTop": false,
+                                "progressBar": true,
+                                "positionClass": "toast-bottom-right",
+                                "preventDuplicates": false,
+                                "onclick": null,
+                                "showDuration": "200",
+                                "hideDuration": "1000",
+                                "timeOut": "3000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            }
+                            toastr["success"]("Booking Updated Successfully!")
                             modal.modal('hide');
-                            dataTable.ajax.reload();
+                            dataTable.ajax.reload(null, false);
                         }
                     })
                 }
             }
 
-                function deletedataconfirm()
-                {
+                function deletedataconfirm(){
 
                     var form = $('form[name="delete_form"]');
                     var modal = $('#exampleModal');
-
-                   
-                    
-
                     if (!form.valid()) {
                         return ;
                     }
@@ -212,22 +227,31 @@
                         
                         $.post("/Booking/Delete", data, function (result) {
                             if (result) {
-                                Swal.fire({
-                                    position: 'center',
-                                    icon: 'success',
-                                    title: 'Booking Deleted Successfully',
-                                    showConfirmButton: false,
-                                    timer: 1500
-                                })
+                                toastr.options = {
+                                    "closeButton": true,
+                                    "newestOnTop": false,
+                                    "progressBar": true,
+                                    "positionClass": "toast-bottom-right",
+                                    "preventDuplicates": false,
+                                    "onclick": null,
+                                    "showDuration": "200",
+                                    "hideDuration": "1000",
+                                    "timeOut": "3000",
+                                    "extendedTimeOut": "1000",
+                                    "showEasing": "swing",
+                                    "hideEasing": "linear",
+                                    "showMethod": "fadeIn",
+                                    "hideMethod": "fadeOut"
+                                }
+                                toastr["error"]("Booking deleted successfully!")
                                 modal.modal('hide');
-                                dataTable.ajax.reload();
+                                dataTable.ajax.reload(null, false);
                             }
                         })
                     }
 
                 }
 
-    
 
 
 
@@ -236,28 +260,26 @@
 
 
 <div>
-    <br /><br />
+    
     <div>
-        <h1 style="text-align:center">RESTAURANT RESERVATION SYSTEM</h1>
-        <h1 style="text-align:center">All Bookings</h1>
+        <br />
 
-       
 
-        <div  >
+        <div>
 
-            <button type="button" class="btn btn-success" onclick="createpopup()">
+            <button type="button" style="margin-bottom:-40px" class="btn btn-success" onclick="createpopup()">
                 New Booking
             </button>
         </div>
+
         
-        <br />
 
-        <div >
+        <div>
 
-            <table id="myBookings" class="table" >
-                
-                <thead class="thead-light">
-                    
+            <table id="myBookings" class="table  table-bordered">
+
+                <thead style="background-color: #1C2833; color: white">
+
                     <tr>
                         <th>Sl.No</th>
 
@@ -271,7 +293,7 @@
 
                         <th>Time (24 Hr Format)</th>
 
-                        <th>Guest</th>
+                        <th>No.of Guests</th>
 
                         <th>Action</th>
 
