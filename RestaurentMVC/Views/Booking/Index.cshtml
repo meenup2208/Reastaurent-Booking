@@ -21,7 +21,7 @@
                         "filter": true,
                         
                         "order": [0, "asc"],
-                        "dom": '<"top"f>rt<"bottom"lpi><"clear">',
+                        "dom": '<"top"f>rt<"bottom"ilp><"clear">',
 
                         "columnDefs": [
 
@@ -135,46 +135,52 @@
                 })
             }
 
-            function savechanges() {
-                var form = $('form[name="operationForm"]');
-                var modal = $('#exampleModal');
+    function savechanges() {
+        var form = $('form[name="operationForm"]');
+        var modal = $('#exampleModal');
+        nameValidation();
+        validateGuest();
+        validateTime();
+        validatePhone();
+        
+        form.validate();
 
-                nameValidation();
-                validateGuest();
-                validateTime();
-                validatePhone();
-                form.validate();
-                
-                if (!form.valid()) {
-                    return;
-                }
-                else {
-                    var data = form.serialize();
-                    $.post("/Booking/Create", data, function (result) {
-                        if (result) {
-                            toastr.options = {
-                                "closeButton": true,
-                                "newestOnTop": false,
-                                "progressBar": true,
-                                "positionClass": "toast-bottom-right",
-                                "preventDuplicates": false,
-                                "onclick": null,
-                                "showDuration": "200",
-                                "hideDuration": "1000",
-                                "timeOut": "3000",
-                                "extendedTimeOut": "1000",
-                                "showEasing": "swing",
-                                "hideEasing": "linear",
-                                "showMethod": "fadeIn",
-                                "hideMethod": "fadeOut"
-                            }
-                            toastr["success"]("Booking Created Successfully!")
-                            modal.modal('hide');
-                            dataTable.ajax.reload(null, false);
+        if (!form.valid()) {
+            return;
+        }
+        else {
+            var data = form.serialize();
+            //if (name && guest && time && phone) {
+                $.post("/Booking/Create", data, function (result) {
+                    console.log(result);
+                    if (result) {
+                        toastr.options =
+                        {
+                            "closeButton": true,
+                            "newestOnTop": false,
+                            "progressBar": true,
+                            "positionClass": "toast-bottom-right",
+                            "preventDuplicates": false,
+                            "onclick": null,
+                            "showDuration": "200",
+                            "hideDuration": "1000",
+                            "timeOut": "3000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
                         }
-                    })
-                }
-            }
+                        toastr["success"]("Booking Created Successfully!")
+                        modal.modal('hide');
+
+                        dataTable.ajax.reload(null, false);
+                    }
+                })
+            //}
+        }
+    }
+        
    
             function save_editedchanges() {
                 var form = $('form[name="operationForm"]');
@@ -189,30 +195,32 @@
                 }
                 else {
                     var data = form.serialize();
-                    $.post("/Booking/Edit", data, function (result) {
-                        if (result) {
-                            toastr.options = {
-                                "closeButton": true,
-                                "newestOnTop": false,
-                                "progressBar": true,
-                                "positionClass": "toast-bottom-right",
-                                "preventDuplicates": false,
-                                "onclick": null,
-                                "showDuration": "200",
-                                "hideDuration": "1000",
-                                "timeOut": "3000",
-                                "extendedTimeOut": "1000",
-                                "showEasing": "swing",
-                                "hideEasing": "linear",
-                                "showMethod": "fadeIn",
-                                "hideMethod": "fadeOut"
+                    
+                        $.post("/Booking/Edit", data, function (result) {
+                            if (result) {
+                                toastr.options = {
+                                    "closeButton": true,
+                                    "newestOnTop": false,
+                                    "progressBar": true,
+                                    "positionClass": "toast-bottom-right",
+                                    "preventDuplicates": false,
+                                    "onclick": null,
+                                    "showDuration": "200",
+                                    "hideDuration": "1000",
+                                    "timeOut": "3000",
+                                    "extendedTimeOut": "1000",
+                                    "showEasing": "swing",
+                                    "hideEasing": "linear",
+                                    "showMethod": "fadeIn",
+                                    "hideMethod": "fadeOut"
+                                }
+                                toastr["success"]("Booking Updated Successfully!")
+                                modal.modal('hide');
+                                dataTable.ajax.reload(null, false);
                             }
-                            toastr["success"]("Booking Updated Successfully!")
-                            modal.modal('hide');
-                            dataTable.ajax.reload(null, false);
-                        }
-                    })
-                }
+                        })
+                    }
+                
             }
 
                 function deletedataconfirm(){

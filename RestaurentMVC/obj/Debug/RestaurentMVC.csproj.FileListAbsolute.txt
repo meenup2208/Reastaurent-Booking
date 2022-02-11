@@ -87,8 +87,6 @@ D:\Project\ProjectFiles\RestaurentMVC\obj\Debug\RestaurentMVC.csproj.CoreCompile
 D:\Project\ProjectFiles\RestaurentMVC\obj\Debug\RestaurentMVC.csproj.CopyComplete
 D:\Project\ProjectFiles\RestaurentMVC\obj\Debug\RestaurentMVC.dll
 D:\Project\ProjectFiles\RestaurentMVC\obj\Debug\RestaurentMVC.pdb
-D:\Reastaurent-\RestaurentMVC\obj\Debug\RestaurentMVC.csproj.AssemblyReference.cache
-D:\Reastaurent-\RestaurentMVC\obj\Debug\RestaurentMVC.csproj.CoreCompileInputs.cache
 D:\Reastaurent-\RestaurentMVC\bin\RestaurentMVC.dll.config
 D:\Reastaurent-\RestaurentMVC\bin\RestaurentMVC.dll
 D:\Reastaurent-\RestaurentMVC\bin\RestaurentMVC.pdb
@@ -176,6 +174,8 @@ D:\Reastaurent-\RestaurentMVC\bin\System.Web.Webpages.Razor.xml
 D:\Reastaurent-\RestaurentMVC\bin\System.Web.Helpers.xml
 D:\Reastaurent-\RestaurentMVC\bin\System.Web.Mvc.xml
 D:\Reastaurent-\RestaurentMVC\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\Reastaurent-\RestaurentMVC\obj\Debug\RestaurentMVC.csproj.AssemblyReference.cache
+D:\Reastaurent-\RestaurentMVC\obj\Debug\RestaurentMVC.csproj.CoreCompileInputs.cache
 D:\Reastaurent-\RestaurentMVC\obj\Debug\RestaurentMVC.csproj.CopyComplete
 D:\Reastaurent-\RestaurentMVC\obj\Debug\RestaurentMVC.dll
 D:\Reastaurent-\RestaurentMVC\obj\Debug\RestaurentMVC.pdb

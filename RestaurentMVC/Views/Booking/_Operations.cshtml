@@ -4,9 +4,9 @@
 
 <form name="operationForm" id="operation_form">
 
-    <div class="modal-header">
+    <div class="modal-header" style="height:80px">
 
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal" title="Close" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
         <h2 style="text-align:center;color:black">RESTAURANT RESERVATION</h2>
@@ -130,7 +130,7 @@
             $('.form-control').attr('disabled', false);
             var today = '@DateTime.Today.ToString("yyyy/MM/dd")';
             $("#date").val(today);
-            
+
             $("#guest").val(1);
         }
         if (operation == '@Operations.Edit')
@@ -138,6 +138,7 @@
         {
             $('.form-control').attr('disabled', false);
             $('#TypeOfDining').val('@Model.TypeOfDining');
+           
         }
         if (operation == '@Operations.View')
         {
@@ -218,7 +219,7 @@
     }
 
     function validateTime() {
-        if (document.operationForm.time.value == null)
+        if (document.operationForm.time.value == '00:00')
         {
             document.getElementById("timevalidate").textContent = "Specify Checkin Time";
 

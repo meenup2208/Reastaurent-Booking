@@ -34,13 +34,17 @@ input[type=number] {
     -moz-appearance: textfield;
 }
 .dataTables_length {
-    margin-top:10px;
-    margin-left: 0px;
+    margin-top:12px;
+    margin-left: 15px;
 }
-.dataTables_info {
+/*.dataTables_info {
     margin-top: -80px;
     margin-left: 180px;
-}
+}*/
 .dataTables_filter {
     margin-bottom: 15px;
+}
+.dataTables_paginate
+{
+    margin-top:-20px;
 }

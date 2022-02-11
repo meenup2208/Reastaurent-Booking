@@ -101,9 +101,7 @@ namespace RestaurentMVC.Controllers
         public ActionResult Edit(Booking booking)
         {
             try
-            {
-
-                
+            { 
                 if (ModelState.IsValid)
                 {
                     RestaurentBook restaurentBook = new RestaurentBook();
