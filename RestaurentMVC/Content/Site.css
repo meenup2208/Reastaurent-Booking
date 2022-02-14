@@ -48,3 +48,28 @@ input[type=number] {
 {
     margin-top:-20px;
 }
+
+.html, body {
+    margin: 0;
+    height: 100%;
+    overflow: hidden
+}
+/*.bottom-navigation {
+   
+    margin-bottom: -25px;
+    
+}*/
+.footers {
+    position: fixed;
+    left: 0;
+    height: 4%;
+    bottom: 0;
+    width: 100%;
+    background-color: black;
+    color: white;
+    text-align: center;
+}
+.dataTables_scrollBody {
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+}

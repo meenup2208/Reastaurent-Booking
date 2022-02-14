@@ -57,17 +57,19 @@
 
         </div>
     </div>
-    <div class="container body-content ">
+   
+    <div class="container body-content">
         @RenderBody()
         <hr />
-
+        
+        <div>
+            <br />
+            <footer class="footers">
+                <p>&copy; @DateTime.Now.Year - Restaurent Reservation Application</p>
+            </footer>
+        </div>
 
     </div>
-    @*<div style="background-color:white" class="navbar navbar-inverse navbar-fixed-bottom">
-            <footer>
-                <p style="text-align:center;"><b>&copy; @DateTime.Now.Year - Restaurent Reservation Application</b></p>
-            </footer>
-        </div>*@
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
 </body>

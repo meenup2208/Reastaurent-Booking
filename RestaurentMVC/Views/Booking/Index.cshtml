@@ -18,8 +18,10 @@
                     {
                         "processing": true,
                         "serverSide": true,
-                        "filter": true,
-                        
+                        "filter": true,                        
+                        "scrollY": "400px",
+                        "scrollCollapse": false,
+
                         "order": [0, "asc"],
                         "dom": '<"top"f>rt<"bottom"ilp><"clear">',
 
@@ -278,13 +280,19 @@
             <button type="button" style="margin-bottom:-40px" class="btn btn-success" onclick="createpopup()">
                 New Booking
             </button>
+
+
+            @*<button type="button" style="margin-bottom:-40px" class="btn btn-success" >
+               Print
+            </button>*@
+
         </div>
 
         
 
         <div>
 
-            <table id="myBookings" class="table  table-bordered">
+            <table id="myBookings" class="table  table-bordered dt-responsive nowrap">
 
                 <thead style="background-color: #1C2833; color: white">
 

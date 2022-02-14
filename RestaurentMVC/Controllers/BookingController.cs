@@ -46,7 +46,10 @@ namespace RestaurentMVC.Controllers
                     return Json(true, JsonRequestBehavior.AllowGet);
                 }
 
-                return Json(true, JsonRequestBehavior.AllowGet);
+                else
+                {
+                    return View();
+                }
             }
             catch
             {
@@ -113,7 +116,10 @@ namespace RestaurentMVC.Controllers
                     return Json(true, JsonRequestBehavior.AllowGet);
                 }
 
-                return Json(true, JsonRequestBehavior.AllowGet);
+                else
+                {
+                    return View();
+                }
             }
             catch
             {
