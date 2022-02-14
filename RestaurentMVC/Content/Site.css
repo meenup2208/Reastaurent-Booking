@@ -73,3 +73,39 @@ input[type=number] {
     overflow-x: hidden !important;
     overflow-y: auto !important;
 }
+
+
+div.container {
+    width: 90%;
+}
+/*.dt-body-center {
+    background-color: #EFF1DB;
+}*/
+.space{
+   margin-left:12px;
+   margin-right:12px;
+}
+.glyphicon-info-sign {
+    font-size: large;
+    color: dodgerblue;
+}
+.glyphicon-edit {
+    font-size: large;
+    color:forestgreen;
+}
+.glyphicon-trash {
+    font-size: large;
+    color: red !important;
+}
+.glyphicon-info-sign:hover, .glyphicon-info-sign:active {
+    color: blue;
+    transform: scale(1.5);
+}
+.glyphicon-edit:hover, .glyphicon-edit:active {
+    color: green;
+    transform: scale(1.5);
+}
+.glyphicon-trash:hover, .glyphicon-trash:active {
+    
+    transform: scale(1.5);
+}

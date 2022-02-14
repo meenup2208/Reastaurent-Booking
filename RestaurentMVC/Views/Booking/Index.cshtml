@@ -1,8 +1,7 @@
 ﻿
 
 @{
-    ViewBag.Title = "Index";
-}
+    ViewBag.Title = "Index";}
 
 
 <meta name="viewport" content="width=device-width" />
@@ -75,7 +74,7 @@
                             {
                                 "data": "Bookid",
                                 "render": function (data, type, full, meta) {
-                                    return ('<button class="btn btn-info" title="View" onclick="getdata(' + full.Bookid + ')"><span class="glyphicon glyphicon-eye-open"></span></button> <button class="btn btn-warning" title="Edit" onclick="geteditdata(' + full.Bookid + ')"><span class="glyphicon glyphicon-pencil"></button>  <button class="btn btn-danger"  title="Delete" onclick="deletedata(' + full.Bookid +')"><span class="glyphicon glyphicon-trash"></span></button>');
+                                    return ('<a class="view "  title="View" onclick="getdata(' + full.Bookid + ')"><span class="glyphicon glyphicon-info-sign"></span></a> <a class="space edit" title="Edit" onclick="geteditdata(' + full.Bookid + ')"><span class="glyphicon glyphicon-edit"></a>  <a class="trash"  title="Delete" onclick="deletedata(' + full.Bookid +')"><span class="glyphicon glyphicon-trash"></span></a>');
                                 }, "autoWidth": true
                             },
 
@@ -84,146 +83,143 @@
                     });
                 
             });
+
     
-            function createpopup() {
-                $.get("/Booking/Create", { operation: "Create" }, function (result) {
+                function createpopup() {
+                    $.get("/Booking/Create", { operation: "Create" }, function (result) {
                     
-                    $('#modelbody1').html(result);
+                        $('#modelbody1').html(result);
                     
-                    $('#exampleModal').modal('show');
+                        $('#exampleModal').modal('show');
                     
-                    var edit = document.getElementById("edit");
-                    edit.style.display = 'none';
-                    var save_edit = document.getElementById("save_edit");
-                    save_edit.style.display = 'none';
+                        var edit = document.getElementById("edit");
+                        edit.style.display = 'none';
+                        var save_edit = document.getElementById("save_edit");
+                        save_edit.style.display = 'none';
 
-                })
-            }
+                    })
+                }
 
-            function getdata(id) {
-                $.get("/Booking/View", { operation: "View", Bookid: id }, function (result) {
+                function getdata(id) {
+                    $.get("/Booking/View", { operation: "View", Bookid: id }, function (result) {
 
-                    $('#modelbody1').html(result);
-                    $('#exampleModal').modal('show');
+                        $('#modelbody1').html(result);
+                        $('#exampleModal').modal('show');
                     
-                    var save = document.getElementById("save");
-                    save.style.display = 'none';
+                        var save = document.getElementById("save");
+                        save.style.display = 'none';
                     
-                    $('#save_edit').prop('disabled','true');
+                        $('#save_edit').prop('disabled','true');
 
-                })
-            }
+                    })
+                }
 
-            function geteditdata(id) {
-                $.get("/Booking/Edit", { operation: "Edit", Bookid: id }, function (result) {
+                function geteditdata(id) {
+                    $.get("/Booking/Edit", { operation: "Edit", Bookid: id }, function (result) {
 
-                    $('#modelbody1').html(result);
-                    $('#exampleModal').modal('show');
-                    var save = document.getElementById("save");
-                    save.style.display = 'none';
-                    var edit = document.getElementById("edit");
-                    edit.style.visibility = 'hidden';
+                        $('#modelbody1').html(result);
+                        $('#exampleModal').modal('show');
+                        var save = document.getElementById("save");
+                        save.style.display = 'none';
+                        var edit = document.getElementById("edit");
+                        edit.style.visibility = 'hidden';
                     
 
-                })
-            }
+                    })
+                }
 
-            function deletedata(id) {
-                $.get("/Booking/Delete", { operation: "Delete", Bookid: id }, function (result) {
+                function deletedata(id) {
+                    $.get("/Booking/Delete", { operation: "Delete", Bookid: id }, function (result) {
 
-                    $('#modelbody1').html(result);
-                    $('#exampleModal').modal('show');
+                        $('#modelbody1').html(result);
+                        $('#exampleModal').modal('show');
 
-                })
-            }
+                    })
+                }
 
-    function savechanges() {
-        var form = $('form[name="operationForm"]');
-        var modal = $('#exampleModal');
-        nameValidation();
-        validateGuest();
-        validateTime();
-        validatePhone();
-        
-        form.validate();
+                function savechanges() {
+                    var form = $('form[name="operationForm"]');
+                    var modal = $('#exampleModal');
+                    nameValidation();
+                    validateGuest();
+                    validateTime();
+                    validatePhone();        
+                    form.validate();
 
-        if (!form.valid()) {
-            return;
-        }
-        else {
-            var data = form.serialize();
-            //if (name && guest && time && phone) {
-                $.post("/Booking/Create", data, function (result) {
-                    console.log(result);
-                    if (result) {
-                        toastr.options =
-                        {
-                            "closeButton": true,
-                            "newestOnTop": false,
-                            "progressBar": true,
-                            "positionClass": "toast-bottom-right",
-                            "preventDuplicates": false,
-                            "onclick": null,
-                            "showDuration": "200",
-                            "hideDuration": "1000",
-                            "timeOut": "3000",
-                            "extendedTimeOut": "1000",
-                            "showEasing": "swing",
-                            "hideEasing": "linear",
-                            "showMethod": "fadeIn",
-                            "hideMethod": "fadeOut"
-                        }
-                        toastr["success"]("Booking Created Successfully!")
-                        modal.modal('hide');
-
-                        dataTable.ajax.reload(null, false);
+                    if (!form.valid()) {
+                        return;
                     }
-                })
-            //}
-        }
-    }
+                    else {
+                        var data = form.serialize();            
+                            $.post("/Booking/Create", data, function (result) {
+                                console.log(result);
+                                if (result) {
+                                    toastr.options ={
+                                        "closeButton": true,
+                                        "newestOnTop": false,
+                                        "progressBar": true,
+                                        "positionClass": "toast-bottom-right",
+                                        "preventDuplicates": false,
+                                        "onclick": null,
+                                        "showDuration": "200",
+                                        "hideDuration": "1000",
+                                        "timeOut": "3000",
+                                        "extendedTimeOut": "1000",
+                                        "showEasing": "swing",
+                                        "hideEasing": "linear",
+                                        "showMethod": "fadeIn",
+                                        "hideMethod": "fadeOut"
+                                    }
+                                    toastr["success"]("Booking Created Successfully!")
+                                    modal.modal('hide');
+
+                                    dataTable.ajax.reload(null, false);
+                                }
+                            })         
+                    }
+                }
         
    
-            function save_editedchanges() {
-                var form = $('form[name="operationForm"]');
-                var modal = $('#exampleModal');
-                nameValidation();
-                validateGuest();
-                validateTime();
-                validatePhone();
-                form.validate();
-                if (!form.valid()) {
-                    return;
-                }
-                else {
-                    var data = form.serialize();
-                    
-                        $.post("/Booking/Edit", data, function (result) {
-                            if (result) {
-                                toastr.options = {
-                                    "closeButton": true,
-                                    "newestOnTop": false,
-                                    "progressBar": true,
-                                    "positionClass": "toast-bottom-right",
-                                    "preventDuplicates": false,
-                                    "onclick": null,
-                                    "showDuration": "200",
-                                    "hideDuration": "1000",
-                                    "timeOut": "3000",
-                                    "extendedTimeOut": "1000",
-                                    "showEasing": "swing",
-                                    "hideEasing": "linear",
-                                    "showMethod": "fadeIn",
-                                    "hideMethod": "fadeOut"
-                                }
-                                toastr["success"]("Booking Updated Successfully!")
-                                modal.modal('hide');
-                                dataTable.ajax.reload(null, false);
-                            }
-                        })
+                function save_editedchanges() {
+                    var form = $('form[name="operationForm"]');
+                    var modal = $('#exampleModal');
+                    nameValidation();
+                    validateGuest();
+                    validateTime();
+                    validatePhone();
+                    form.validate();
+                    if (!form.valid()) {
+                        return;
                     }
+                    else {
+                        var data = form.serialize();
+                    
+                            $.post("/Booking/Edit", data, function (result) {
+                                if (result) {
+                                    toastr.options = {
+                                        "closeButton": true,
+                                        "newestOnTop": false,
+                                        "progressBar": true,
+                                        "positionClass": "toast-bottom-right",
+                                        "preventDuplicates": false,
+                                        "onclick": null,
+                                        "showDuration": "200",
+                                        "hideDuration": "1000",
+                                        "timeOut": "3000",
+                                        "extendedTimeOut": "1000",
+                                        "showEasing": "swing",
+                                        "hideEasing": "linear",
+                                        "showMethod": "fadeIn",
+                                        "hideMethod": "fadeOut"
+                                    }
+                                    toastr["success"]("Booking Updated Successfully!")
+                                    modal.modal('hide');
+                                    dataTable.ajax.reload(null, false);
+                                }
+                            })
+                        }
                 
-            }
+                }
 
                 function deletedataconfirm(){
 
@@ -261,10 +257,6 @@
                     }
 
                 }
-
-
-
-
 </script>
 
 
@@ -276,23 +268,14 @@
 
 
         <div>
-
             <button type="button" style="margin-bottom:-40px" class="btn btn-success" onclick="createpopup()">
-                New Booking
+                New Booking 
             </button>
-
-
-            @*<button type="button" style="margin-bottom:-40px" class="btn btn-success" >
-               Print
-            </button>*@
-
-        </div>
-
-        
+        </div>        
 
         <div>
 
-            <table id="myBookings" class="table  table-bordered dt-responsive nowrap">
+            <table id="myBookings"  class="table  table-bordered dt-responsive nowrap">
 
                 <thead style="background-color: #1C2833; color: white">
 
