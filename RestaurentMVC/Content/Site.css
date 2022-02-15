@@ -37,6 +37,11 @@ input[type=number] {
     margin-top:12px;
     margin-left: 15px;
 }
+
+.buttons-div{
+    margin-top: 12px;
+    margin-left: 15px;
+}
 /*.dataTables_info {
     margin-top: -80px;
     margin-left: 180px;
@@ -108,4 +113,9 @@ div.container {
 .glyphicon-trash:hover, .glyphicon-trash:active {
     
     transform: scale(1.5);
+}
+.dt-buttons {
+ 
+  display:none;
+
 }

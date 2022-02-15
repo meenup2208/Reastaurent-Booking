@@ -18,12 +18,13 @@
                         "processing": true,
                         "serverSide": true,
                         "filter": true,                        
-                        "scrollY": "400px",
+                        "scrollY": "360px",
+                        
                         "scrollCollapse": false,
-
+                        "responsive": true,
                         "order": [0, "asc"],
-                        "dom": '<"top"f>rt<"bottom"ilp><"clear">',
-
+                        "dom": '<"top"f>rt<"bottom"ilBp><"clear">',                        
+                        
                         "columnDefs": [
 
                             { "targets": [0,2,5,7], orderable: false, className:'dt-head-center dt-body-center' },
@@ -84,7 +85,9 @@
                 
             });
 
-    
+                
+
+
                 function createpopup() {
                     $.get("/Booking/Create", { operation: "Create" }, function (result) {
                     
@@ -261,21 +264,23 @@
 
 
 
-<div>
+
     
     <div>
         <br />
 
 
         <div>
-            <button type="button" style="margin-bottom:-40px" class="btn btn-success" onclick="createpopup()">
-                New Booking 
+            <button type="button" style="margin-bottom:-35px" class="btn btn-success" onclick="createpopup()">
+                New Booking
             </button>
-        </div>        
+
+        </div>
+
 
         <div>
 
-            <table id="myBookings"  class="table  table-bordered dt-responsive nowrap">
+            <table id="myBookings" class="table  table-bordered dt-responsive nowrap">
 
                 <thead style="background-color: #1C2833; color: white">
 
@@ -303,8 +308,13 @@
             </table>
 
         </div>
+
+        
+
     </div>
-</div>
+
+
+
 <div data-backdrop="static" class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
     <div class="modal-dialog" role="document">
         <div class="modal-content" id="modelbody1" style="width:90%;" >
