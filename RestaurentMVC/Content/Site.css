@@ -47,7 +47,8 @@ input[type=number] {
     margin-left: 180px;
 }*/
 .dataTables_filter {
-    margin-bottom: 15px;
+    margin-top:-25px;
+    margin-bottom:15px;
 }
 .dataTables_paginate
 {

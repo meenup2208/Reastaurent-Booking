@@ -13,7 +13,7 @@ namespace RestaurentMVC.Models
 
         private void connection()
         {
-            string connectionstring = "Data Source=DESKTOP-5D8VUE4;Initial Catalog=Bookings;Integrated Security=True;Pooling=False";
+            string connectionstring = "Data Source=DESKTOP-46PCH8R;Initial Catalog=BookingDatabase;Integrated Security=True;Pooling=False";
             //string constring = ConfigurationManager.ConnectionStrings["BookingsConn"].ToString();
             con = new SqlConnection(connectionstring);
         }
