@@ -183,5 +183,38 @@ namespace RestaurentMVC.Models
             }
             return list;
         }
+
+        public List<Booking> GETALLBOOKINGS()
+        {
+            connection();
+            List<Booking> list = new List<Booking>();
+
+            SqlCommand cmd = new SqlCommand("GETALLBOOKINGS", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+            SqlDataAdapter sd = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+
+            con.Open();
+            sd.Fill(dt);
+            con.Close();
+
+            foreach (DataRow dr in dt.Rows)
+            {
+                list.Add(
+                    new Booking
+                    {
+                        Bookid = Convert.ToInt32(dr["Bookid"]),
+                        Name = Convert.ToString(dr["Name"]),
+                        Phone = Convert.ToString(dr["Phone"]),
+                        TypeOfDining = Convert.ToString(dr["TypeOfDining"]),
+                        Date = Convert.ToDateTime(dr["Date"]),
+                        Time = Convert.ToString(dr["Time"]),
+                        Guest = Convert.ToInt32(dr["Guest"]),
+
+                    });
+            }
+            return list;
+        }
+
     }
 }

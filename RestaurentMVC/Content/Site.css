@@ -48,11 +48,7 @@ input[type=number] {
 }*/
 .dataTables_filter {
     margin-top:-25px;
-    margin-bottom:15px;
-}
-.dataTables_paginate
-{
-    margin-top:-20px;
+    margin-bottom:5px;
 }
 
 .html, body {
@@ -82,7 +78,7 @@ input[type=number] {
 
 
 div.container {
-    width: 90%;
+    width: 90% !important;
 }
 /*.dt-body-center {
     background-color: #EFF1DB;
@@ -119,4 +115,7 @@ div.container {
  
   display:none;
 
+}
+.dropdown-toggle-split {
+    height:34px;
 }

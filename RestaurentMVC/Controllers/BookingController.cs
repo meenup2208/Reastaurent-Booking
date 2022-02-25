@@ -6,7 +6,8 @@ using System.Web;
 using System.Web.Mvc;
 using RestaurentMVC.Models;
 using BookingClassLibrary.Enum;
-
+using ArrayToPdf;
+using System.Data;
 
 namespace RestaurentMVC.Controllers
 {
@@ -202,6 +203,31 @@ namespace RestaurentMVC.Controllers
                 throw;
             }
         }
+
+        [HttpGet]
+        public ActionResult Print()
+        {
+            RestaurentBook restaurentBook = new RestaurentBook();
+            List<Booking> objbooking = restaurentBook.GETALLBOOKINGS();
+
+            var table = new DataTable("Booking Table");
+            table.Columns.Add("Booking ID", typeof(int));
+            table.Columns.Add("Name", typeof(string));
+            table.Columns.Add("Phone", typeof(string));
+            table.Columns.Add("TypeOfDining", typeof(string));
+            table.Columns.Add("Date", typeof(DateTime));
+            table.Columns.Add("Time", typeof(string));
+            table.Columns.Add("Guest", typeof(int));
+
+            foreach (Booking booking in objbooking)
+                table.Rows.Add(booking.Bookid, booking.Name, booking.Phone, booking.TypeOfDining, booking.Date, booking.Time, booking.Guest);
+
+            var pdf = table.ToPdf();
+            System.IO.File.WriteAllBytes(@"D:\Assingnment\New folder\Reastaurent-Booking\RestaurentMVC\Pdf\result.pdf", pdf);
+            return PartialView("_Printview");
+
+        }
+
 
     }
 
