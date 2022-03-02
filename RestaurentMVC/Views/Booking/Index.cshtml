@@ -133,13 +133,17 @@
     }
     function printDiv() {
         //$('#printmodal').modal('show');
-        $.get("/Booking/Print", function (result) {
-            console.log(result);
-
+        $.get("/Booking/Print", function (res) {
+            $("#printPreview").html(res);
+            $('#print').modal('show');
         });
+        setTimeout(getprint, 1000)
+    }
+    function getprint() {
         window.frames["print_frame"].window.focus();
         window.frames["print_frame"].window.print();
     }
+
 
 
                 function createpopup() {
@@ -321,16 +325,16 @@
 
 <iframe name="print_frame" src="~/Pdf/result.pdf" height="0" width="0" title=""></iframe>
 <div>
-    <br />
+    
     <br />
 
-    <div class="btn-group" style="margin-top:-1px;">
+    <div style="margin-top:-1px;">
         <button type="button" class="btn btn-success" style="margin-right:10px;" onclick="createpopup()">
             New Booking
         </button>
         
-        <button type="button" onclick="printDiv()" class="btn btn-danger">Print</button>
-        <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <button type="button" onclick="printDiv()" style="width: 60px; margin-right: -8px;" class="btn btn-danger">Print</button>
+        <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span class="glyphicon glyphicon-chevron-down"></span>
         </button>
         <div class="dropdown-menu">
@@ -395,8 +399,8 @@
 </div>
 
 <div data-backdrop="static" class="modal fade  bd-example-modal-lg" id="print" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content" id="printPreview" style="width:810px;height:650px;background-color:antiquewhite;align-self:initial;">
+    <div class="modal-dialog modal-lg" role="document"style="margin-left:35px;">
+        <div class="modal-content" id="printPreview" style="width:160%;height:650px;background-color:antiquewhite;align-self:initial;">
             
         </div>
     </div>
