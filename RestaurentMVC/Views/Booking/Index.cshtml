@@ -9,106 +9,106 @@
 <title>Bookings</title>
 
 <script>
-            var dataTable;
-            $(document).ready(function () {
+    var dataTable;
+    $(document).ready(function () {
 
-                dataTable=$('#myBookings').DataTable(
+        dataTable = $('#myBookings').DataTable(
+
+            {
+                "processing": true,
+                "serverSide": true,
+                "filter": true,
+                "scrollY": "380px",
+
+                "scrollCollapse": false,
+                "responsive": true,
+                "order": [0, "asc"],
+                "dom": '<"top"f>rt<"bottom"ilBp><"clear">',
+                dom: 'Bfrtipl',
+                buttons: [
+                    {
+                        extend: 'excel',
+                        download: 'open',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5, 6]
+                        }
+                    },
+                    {
+                        extend: 'pdf',
+                        download: 'open',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5, 6]
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        autoPrint: false,
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5, 6]
+                        }
+                    }
+                ],
+                "columnDefs": [
+
+                    { "targets": [0, 2, 5, 7], orderable: false, className: 'dt-head-center dt-body-center' },
+                    { "targets": [1, 3, 4, 6], className: 'dt-head-center dt-body-center' },
+
+                ],
+                "ajax": {
+
+                    "url": "/Booking/Bookinglist",
+
+                    "type": "POST",
+
+                    "datatype": "json"
+
+                },
+
+                "columns": [
+                    {
+
+                        render: function (data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
+
+                    { "data": "Name", "autoWidth": true },
+
+                    { "data": "Phone", "autoWidth": true },
+
+                    { "data": "TypeOfDining", "autoWidth": true },
 
                     {
-                        "processing": true,
-                        "serverSide": true,
-                        "filter": true,                        
-                        "scrollY": "420px",
-                        
-                        "scrollCollapse": false,
-                        "responsive": true,
-                        "order": [0, "asc"],
-                        "dom": '<"top"f>rt<"bottom"ilBp><"clear">',                        
-                        dom: 'Bfrtipl',
-                        buttons: [
-                            {
-                                extend: 'excel',
-                                download: 'open',
-                                exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5,6]
-                                }
-                            },
-                            {
-                                extend: 'pdf',
-                                download:'open',
-                                exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5,6]
-                                }
-                            },
-                            {
-                                extend: 'print',
-                                autoPrint: false,
-                                exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5,6]
-                                }
-                            }
-                        ],
-                        "columnDefs": [
-
-                            { "targets": [0,2,5,7], orderable: false, className:'dt-head-center dt-body-center' },
-                            { "targets": [1, 3, 4, 6], className: 'dt-head-center dt-body-center' },
-                            
-                        ],
-                        "ajax": {
-
-                            "url": "/Booking/Bookinglist",
-
-                            "type": "POST",
-
-                            "datatype": "json"
-
+                        "data": "Date",
+                        "type": "datetime",
+                        "render": function (value) {
+                            if (value === null) return "";
+                            var pattern = /Date\(([^)]+)\)/;
+                            var results = pattern.exec(value);
+                            var dt = new Date(parseFloat(results[1]));
+                            return dt.getDate() + "/" + (dt.getMonth() + 1) + "/" + dt.getFullYear()
                         },
+                        "autoWidth": true
+                    },
 
-                        "columns": [
-                            {
-                                
-                                render: function (data, type, row, meta) {
-                                    return meta.row + meta.settings._iDisplayStart + 1;
-                                }
-                            },
+                    { "data": "Time", "autoWidth": true },
 
-                            { "data": "Name", "autoWidth": true},
+                    { "data": "Guest", "autoWidth": true },
 
-                            { "data": "Phone", "autoWidth": true },
+                    {
+                        "data": "Bookid",
+                        "render": function (data, type, full, meta) {
+                            return ('<a class="view "  title="View" onclick="getdata(' + full.Bookid + ')"><span class="glyphicon glyphicon-info-sign"></span></a> <a class="space edit" title="Edit" onclick="geteditdata(' + full.Bookid + ')"><span class="glyphicon glyphicon-edit"></a>  <a class="trash"  title="Delete" onclick="deletedata(' + full.Bookid + ')"><span class="glyphicon glyphicon-trash"></span></a>');
+                        }, "autoWidth": true
+                    },
 
-                            { "data": "TypeOfDining", "autoWidth": true },
+                ]
 
-                            {
-                                "data": "Date",
-                                "type": "datetime",
-                                "render": function (value) {
-                                    if (value === null) return "";
-                                    var pattern = /Date\(([^)]+)\)/;
-                                    var results = pattern.exec(value);
-                                    var dt = new Date(parseFloat(results[1]));
-                                    return dt.getDate() + "/" + (dt.getMonth() + 1) + "/" + dt.getFullYear()
-                                },
-                                 "autoWidth": true
-                            },
-
-                            { "data": "Time", "autoWidth": true},
-
-                            { "data": "Guest", "autoWidth": true},
-
-                            {
-                                "data": "Bookid",
-                                "render": function (data, type, full, meta) {
-                                    return ('<a class="view "  title="View" onclick="getdata(' + full.Bookid + ')"><span class="glyphicon glyphicon-info-sign"></span></a> <a class="space edit" title="Edit" onclick="geteditdata(' + full.Bookid + ')"><span class="glyphicon glyphicon-edit"></a>  <a class="trash"  title="Delete" onclick="deletedata(' + full.Bookid +')"><span class="glyphicon glyphicon-trash"></span></a>');
-                                }, "autoWidth": true
-                            },
-
-                        ]
-
-                    });
-                
             });
 
-                
+    });
+
+
 
     $(document).on('click', '#btnExcel', function () {
         var info = dataTable.page.info();
@@ -146,178 +146,178 @@
 
 
 
-                function createpopup() {
-                    $.get("/Booking/Create", { operation: "Create" }, function (result) {
-                    
-                        $('#modelbody1').html(result);
-                    
-                        $('#exampleModal').modal('show');
-                    
-                        var edit = document.getElementById("edit");
-                        edit.style.display = 'none';
-                        var save_edit = document.getElementById("save_edit");
-                        save_edit.style.display = 'none';
+    function createpopup() {
+        $.get("/Booking/Create", { operation: "Create" }, function (result) {
 
-                    })
-                }
+            $('#modelbody1').html(result);
 
-                function getdata(id) {
-                    $.get("/Booking/View", { operation: "View", Bookid: id }, function (result) {
+            $('#exampleModal').modal('show');
 
-                        $('#modelbody1').html(result);
-                        $('#exampleModal').modal('show');
-                    
-                        var save = document.getElementById("save");
-                        save.style.display = 'none';
-                    
-                        $('#save_edit').prop('disabled','true');
+            var edit = document.getElementById("edit");
+            edit.style.display = 'none';
+            var save_edit = document.getElementById("save_edit");
+            save_edit.style.display = 'none';
 
-                    })
-                }
+        })
+    }
 
-                function geteditdata(id) {
-                    $.get("/Booking/Edit", { operation: "Edit", Bookid: id }, function (result) {
+    function getdata(id) {
+        $.get("/Booking/View", { operation: "View", Bookid: id }, function (result) {
 
-                        $('#modelbody1').html(result);
-                        $('#exampleModal').modal('show');
-                        var save = document.getElementById("save");
-                        save.style.display = 'none';
-                        var edit = document.getElementById("edit");
-                        edit.style.visibility = 'hidden';
-                    
+            $('#modelbody1').html(result);
+            $('#exampleModal').modal('show');
 
-                    })
-                }
+            var save = document.getElementById("save");
+            save.style.display = 'none';
 
-                function deletedata(id) {
-                    $.get("/Booking/Delete", { operation: "Delete", Bookid: id }, function (result) {
+            $('#save_edit').prop('disabled', 'true');
 
-                        $('#modelbody1').html(result);
-                        $('#exampleModal').modal('show');
+        })
+    }
 
-                    })
-                }
+    function geteditdata(id) {
+        $.get("/Booking/Edit", { operation: "Edit", Bookid: id }, function (result) {
 
-                function savechanges() {
-                    var form = $('form[name="operationForm"]');
-                    var modal = $('#exampleModal');
-                    nameValidation();
-                    validateGuest();
-                    validateTime();
-                    validatePhone();        
-                    form.validate();
+            $('#modelbody1').html(result);
+            $('#exampleModal').modal('show');
+            var save = document.getElementById("save");
+            save.style.display = 'none';
+            var edit = document.getElementById("edit");
+            edit.style.visibility = 'hidden';
 
-                    if (!form.valid()) {
-                        return;
+
+        })
+    }
+
+    function deletedata(id) {
+        $.get("/Booking/Delete", { operation: "Delete", Bookid: id }, function (result) {
+
+            $('#modelbody1').html(result);
+            $('#exampleModal').modal('show');
+
+        })
+    }
+
+    function savechanges() {
+        var form = $('form[name="operationForm"]');
+        var modal = $('#exampleModal');
+        nameValidation();
+        validateGuest();
+        validateTime();
+        validatePhone();
+        form.validate();
+
+        if (!form.valid()) {
+            return;
+        }
+        else {
+            var data = form.serialize();
+            $.post("/Booking/Create", data, function (result) {
+                console.log(result);
+                if (result) {
+                    toastr.options = {
+                        "closeButton": true,
+                        "newestOnTop": false,
+                        "progressBar": true,
+                        "positionClass": "toast-bottom-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "200",
+                        "hideDuration": "1000",
+                        "timeOut": "3000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
                     }
-                    else {
-                        var data = form.serialize();            
-                            $.post("/Booking/Create", data, function (result) {
-                                console.log(result);
-                                if (result) {
-                                    toastr.options ={
-                                        "closeButton": true,
-                                        "newestOnTop": false,
-                                        "progressBar": true,
-                                        "positionClass": "toast-bottom-right",
-                                        "preventDuplicates": false,
-                                        "onclick": null,
-                                        "showDuration": "200",
-                                        "hideDuration": "1000",
-                                        "timeOut": "3000",
-                                        "extendedTimeOut": "1000",
-                                        "showEasing": "swing",
-                                        "hideEasing": "linear",
-                                        "showMethod": "fadeIn",
-                                        "hideMethod": "fadeOut"
-                                    }
-                                    toastr["success"]("Booking Created Successfully!")
-                                    modal.modal('hide');
+                    toastr["success"]("Booking Created Successfully!")
+                    modal.modal('hide');
 
-                                    dataTable.ajax.reload(null, false);
-                                }
-                            })         
-                    }
+                    dataTable.ajax.reload(null, false);
                 }
-        
-   
-                function save_editedchanges() {
-                    var form = $('form[name="operationForm"]');
-                    var modal = $('#exampleModal');
-                    nameValidation();
-                    validateGuest();
-                    validateTime();
-                    validatePhone();
-                    form.validate();
-                    if (!form.valid()) {
-                        return;
+            })
+        }
+    }
+
+
+    function save_editedchanges() {
+        var form = $('form[name="operationForm"]');
+        var modal = $('#exampleModal');
+        nameValidation();
+        validateGuest();
+        validateTime();
+        validatePhone();
+        form.validate();
+        if (!form.valid()) {
+            return;
+        }
+        else {
+            var data = form.serialize();
+
+            $.post("/Booking/Edit", data, function (result) {
+                if (result) {
+                    toastr.options = {
+                        "closeButton": true,
+                        "newestOnTop": false,
+                        "progressBar": true,
+                        "positionClass": "toast-bottom-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "200",
+                        "hideDuration": "1000",
+                        "timeOut": "3000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
                     }
-                    else {
-                        var data = form.serialize();
-                    
-                            $.post("/Booking/Edit", data, function (result) {
-                                if (result) {
-                                    toastr.options = {
-                                        "closeButton": true,
-                                        "newestOnTop": false,
-                                        "progressBar": true,
-                                        "positionClass": "toast-bottom-right",
-                                        "preventDuplicates": false,
-                                        "onclick": null,
-                                        "showDuration": "200",
-                                        "hideDuration": "1000",
-                                        "timeOut": "3000",
-                                        "extendedTimeOut": "1000",
-                                        "showEasing": "swing",
-                                        "hideEasing": "linear",
-                                        "showMethod": "fadeIn",
-                                        "hideMethod": "fadeOut"
-                                    }
-                                    toastr["success"]("Booking Updated Successfully!")
-                                    modal.modal('hide');
-                                    dataTable.ajax.reload(null, false);
-                                }
-                            })
-                        }
-                
+                    toastr["success"]("Booking Updated Successfully!")
+                    modal.modal('hide');
+                    dataTable.ajax.reload(null, false);
                 }
+            })
+        }
 
-                function deletedataconfirm(){
+    }
 
-                    var form = $('form[name="delete_form"]');
-                    var modal = $('#exampleModal');
-                    if (!form.valid()) {
-                        return ;
+    function deletedataconfirm() {
+
+        var form = $('form[name="delete_form"]');
+        var modal = $('#exampleModal');
+        if (!form.valid()) {
+            return;
+        }
+        else {
+            var data = form.serialize();
+
+            $.post("/Booking/Delete", data, function (result) {
+                if (result) {
+                    toastr.options = {
+                        "closeButton": true,
+                        "newestOnTop": false,
+                        "progressBar": true,
+                        "positionClass": "toast-bottom-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "200",
+                        "hideDuration": "1000",
+                        "timeOut": "3000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
                     }
-                    else {
-                        var data = form.serialize();
-                        
-                        $.post("/Booking/Delete", data, function (result) {
-                            if (result) {
-                                toastr.options = {
-                                    "closeButton": true,
-                                    "newestOnTop": false,
-                                    "progressBar": true,
-                                    "positionClass": "toast-bottom-right",
-                                    "preventDuplicates": false,
-                                    "onclick": null,
-                                    "showDuration": "200",
-                                    "hideDuration": "1000",
-                                    "timeOut": "3000",
-                                    "extendedTimeOut": "1000",
-                                    "showEasing": "swing",
-                                    "hideEasing": "linear",
-                                    "showMethod": "fadeIn",
-                                    "hideMethod": "fadeOut"
-                                }
-                                toastr["error"]("Booking deleted successfully!")
-                                modal.modal('hide');
-                                dataTable.ajax.reload(null, false);
-                            }
-                        })
-                    }
-
+                    toastr["error"]("Booking deleted successfully!")
+                    modal.modal('hide');
+                    dataTable.ajax.reload(null, false);
                 }
+            })
+        }
+
+    }
 </script>
 
 
@@ -325,28 +325,41 @@
 
 <iframe name="print_frame" src="~/Pdf/result.pdf" height="0" width="0" title=""></iframe>
 <div>
-    
+
     <br />
 
-    <div style="margin-top:-1px;">
+    <div style="margin-top:-30px;">
         <button type="button" class="btn btn-success" style="margin-right:10px;" onclick="createpopup()">
             New Booking
         </button>
-        
-        <button type="button" onclick="printDiv()" style="width: 60px; margin-right: -8px;" class="btn btn-danger">Print</button>
-        <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+        @*<button type="button" onclick="printDiv()" style="width: 60px; margin-right: -8px;" class="btn btn-danger">Print</button>
+        <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span class="glyphicon glyphicon-chevron-down"></span>
         </button>
-        <div class="dropdown-menu">
+        <div class="dropdown-menu drop">
             <ul>
                 <li class="dropdown-item" onclick="printalll()" style="list-style:none; cursor:pointer;">Export  to  PDF</li>
                 <li class="dropdown-item" id="btnExcel" style="list-style: none; cursor: pointer">Export  to  Excel</li>
             </ul>
-        </div>
+        </div>*@
 
+        <div class="btn-group">
+            <button type="button" class="btn btn-danger" style="width: 60px; margin-right: -8px;" onclick="printDiv()">Print</button>
+            <button type="button"  class="btn btn-danger dropdown-toggle dropdown-toggle-split" style="width: 30px;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="glyphicon glyphicon-chevron-down"></span>
+            </button>
+            <div class="dropdown-menu drop" >
+                <ul>
+                    <li class="dropdown-item" style="list-style: none; cursor: pointer" onclick="printalll()">Export to PDF</li>
+                    <li class="dropdown-item" style="list-style: none; cursor: pointer" id="btnExcel">Export to Excel</li>
+                </ul>
+
+            </div>
+        </div>
     </div>
     <div>
-        
+
 
     </div>
 
@@ -389,9 +402,9 @@
 
 
 
-<div data-backdrop="static" class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+<div data-backdrop="static" class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <div class="modal-content" id="modelbody1" style="width:90%;" >
+        <div class="modal-content" id="modelbody1" style="width:90%;">
 
         </div>
     </div>
@@ -399,9 +412,9 @@
 </div>
 
 <div data-backdrop="static" class="modal fade  bd-example-modal-lg" id="print" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document"style="margin-left:35px;">
-        <div class="modal-content" id="printPreview" style="width:160%;height:650px;background-color:antiquewhite;align-self:initial;">
-            
+    <div class="modal-dialog modal-lg" role="document" style="margin-left:35px;">
+        <div class="modal-content" id="printPreview" style="width:140%;height:450px;background-color:antiquewhite;align-self:initial;">
+
         </div>
     </div>
 

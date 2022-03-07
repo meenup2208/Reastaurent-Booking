@@ -1,78 +1,32 @@
-﻿<!DOCTYPE html>
+﻿@using System.Web.Optimization;
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Restaurant Reservation System</title>
-    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
-    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
-
-
-
-
-    <!--Required jQuery file-->
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-    <!--Required datatable js file-->
-
-    <script src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-
-    <!--Required datatable css file-->
-
-    <link href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet" />
-
-
-
-    <!--semantic ui css file-->
-
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
-
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-
-
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-
-
-
-    <!--Sweet alert-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
-
+   
+    @Styles.Render("~/Content/MyCSS");
+    @Scripts.Render("~/Scripts/MyJS");
 
 </head>
 <body style="background-color: #EFF1DB">
 
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
-
             <h2 style="display: flex; justify-content: center; color: white "><b>RESTAURANT RESERVATION SYSTEM</b></h2>
-
         </div>
     </div>
-   
+
     <div class="container body-content">
         @RenderBody()
         <hr />
-        
         <div>
             <br />
             <footer class="footers">
                 <p>&copy; @DateTime.Now.Year - Restaurent Reservation Application</p>
             </footer>
         </div>
-
     </div>
 </body>
 </html>

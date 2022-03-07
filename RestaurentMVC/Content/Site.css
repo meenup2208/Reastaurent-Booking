@@ -119,3 +119,7 @@ div.container {
 .dropdown-toggle-split {
     height:34px;
 }
+
+.navbar {
+    background-image: linear-gradient(to bottom,#707B7C 0,#1C2833 100%) !important;
+}
