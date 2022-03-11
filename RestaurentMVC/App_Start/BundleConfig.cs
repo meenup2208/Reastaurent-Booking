@@ -16,7 +16,8 @@ namespace RestaurentMVC
             MyCssBundles.Include("~/Content/Site.css",
                                 "~/Content/bootstrap.min.css", 
                                 "~/Content/DataTables/css/jquery.dataTables.min.css",
-                                "~/Content/bootstrap-theme.min.css"
+                                "~/Content/bootstrap-theme.min.css",
+                                "~/Content/toastr.min.css"
                                );
          
             ScriptBundle MyJsBundles = new ScriptBundle("~/Scripts/MyJS");

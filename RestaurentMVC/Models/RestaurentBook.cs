@@ -13,7 +13,7 @@ namespace RestaurentMVC.Models
 
         private void connection()
         {
-            string connectionstring = "Data Source=DESKTOP-BC5TS1F\\MSSQLSERVER2019;Initial Catalog=BookingDatabase;Integrated Security=True;Pooling=False";
+            string connectionstring = "Data Source=LAPTOP-5IQ1TLRU;Initial Catalog=BookingDatabase;Integrated Security=True";
             //string constring = ConfigurationManager.ConnectionStrings["BookingsConn"].ToString();
             con = new SqlConnection(connectionstring);
         }

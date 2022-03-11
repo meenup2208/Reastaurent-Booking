@@ -223,7 +223,7 @@ namespace RestaurentMVC.Controllers
                 table.Rows.Add(booking.Bookid, booking.Name, booking.Phone, booking.TypeOfDining, booking.Date, booking.Time, booking.Guest);
 
             var pdf = table.ToPdf();
-            System.IO.File.WriteAllBytes(@"G:\project-ust-05-12-2021\Meenu\second-cloned\Reastaurent-Booking\RestaurentMVC\Pdf\result.pdf", pdf);
+            System.IO.File.WriteAllBytes(@"C:\Users\user\Desktop\New folder\Meenu\Reastaurent-Booking\RestaurentMVC\Pdf\result.pdf", pdf);
             return PartialView("_Printview");
 
         }

@@ -19,6 +19,7 @@
                 "serverSide": true,
                 "filter": true,
                 "scrollY": "380px",
+                "scrollX": "380px",
 
                 "scrollCollapse": false,
                 "responsive": true,
@@ -323,7 +324,6 @@
 
 
 
-<iframe name="print_frame" src="~/Pdf/result.pdf" height="0" width="0" title=""></iframe>
 <div>
 
     <br />
@@ -333,16 +333,6 @@
             New Booking
         </button>
 
-        @*<button type="button" onclick="printDiv()" style="width: 60px; margin-right: -8px;" class="btn btn-danger">Print</button>
-        <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <span class="glyphicon glyphicon-chevron-down"></span>
-        </button>
-        <div class="dropdown-menu drop">
-            <ul>
-                <li class="dropdown-item" onclick="printalll()" style="list-style:none; cursor:pointer;">Export  to  PDF</li>
-                <li class="dropdown-item" id="btnExcel" style="list-style: none; cursor: pointer">Export  to  Excel</li>
-            </ul>
-        </div>*@
 
         <div class="btn-group">
             <button type="button" class="btn btn-danger" style="width: 60px; margin-right: -8px;" onclick="printDiv()">Print</button>
@@ -366,7 +356,7 @@
 
     <div>
 
-        <table id="myBookings" class="table  table-bordered dt-responsive nowrap">
+        <table id="myBookings" class="table  table-bordered dt-responsive nowrap" style="width:100%">
 
             <thead style="background-color: #1C2833; color: white">
 
@@ -403,7 +393,7 @@
 
 
 <div data-backdrop="static" class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog" role="document" style="padding-left: 6%;">
         <div class="modal-content" id="modelbody1" style="width:90%;">
 
         </div>
@@ -412,8 +402,8 @@
 </div>
 
 <div data-backdrop="static" class="modal fade  bd-example-modal-lg" id="print" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document" style="margin-left:35px;">
-        <div class="modal-content" id="printPreview" style="width:140%;height:450px;background-color:antiquewhite;align-self:initial;">
+    <div class="modal-dialog modal-lg" role="document" style="justify-content: center">
+        <div class="modal-content" id="printPreview" style="width:100%;height:100%;background-color:antiquewhite;align-self:initial;">
 
         </div>
     </div>

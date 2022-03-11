@@ -1,5 +1,4 @@
 ﻿body {
-    padding-top: 50px;
     padding-bottom: 20px;
 }
 
@@ -49,12 +48,12 @@ input[type=number] {
 .dataTables_filter {
     margin-top:-25px;
     margin-bottom:5px;
+    display:flex;
 }
 
 .html, body {
     margin: 0;
     height: 100%;
-    overflow: hidden
 }
 /*.bottom-navigation {
    
@@ -72,8 +71,8 @@ input[type=number] {
     text-align: center;
 }
 .dataTables_scrollBody {
-    overflow-x: hidden !important;
     overflow-y: auto !important;
+    overflow-x: auto !important;
 }
 
 
@@ -122,4 +121,11 @@ div.container {
 
 .navbar {
     background-image: linear-gradient(to bottom,#707B7C 0,#1C2833 100%) !important;
+    
 }
+.form-horizontal{
+    align-content:center !important;
+}
+/*.form-group{
+    display:flex;
+}*/
