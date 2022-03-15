@@ -17,7 +17,8 @@ namespace RestaurentMVC
                                 "~/Content/bootstrap.min.css", 
                                 "~/Content/DataTables/css/jquery.dataTables.min.css",
                                 "~/Content/bootstrap-theme.min.css",
-                                "~/Content/toastr.min.css"
+                                "~/Content/toastr.min.css",
+                                "~/Content/DataTables/css/responsive.dataTables.min.css"
                                );
          
             ScriptBundle MyJsBundles = new ScriptBundle("~/Scripts/MyJS");
@@ -28,7 +29,8 @@ namespace RestaurentMVC
                                 "~/Scripts/DataTables/dataTables.buttons.min.js", 
                                 "~/Scripts/jszip.min.js", 
                                 "~/Scripts/DataTables/buttons.html5.min.js", 
-                                "~/Scripts/DataTables/buttons.print.min.js"
+                                "~/Scripts/DataTables/buttons.print.min.js",
+                                "~/Scripts/DataTables/dataTables.responsive.min.js"
                                 );
            
             bundles.Add(MyCssBundles);
