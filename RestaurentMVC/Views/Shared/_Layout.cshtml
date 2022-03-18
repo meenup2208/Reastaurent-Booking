@@ -13,9 +13,35 @@
 
     <div class="navbar navbar-inverse navbar-static-top">
         <div class="container-fluid" style="text-align:center">
-            <h2 style="color: white "><b>RESTAURANT RESERVATION SYSTEM</b></h2>
+            <h2 style="color: white;">
+                RESTAURANT RESERVATION SYSTEM
+
+
+            </h2>
+            @if (Request.IsAuthenticated)
+            {
+
+                <a href="@Url.Action("LogOut","User")" class="navbar-brand">Logout</a>
+
+               <span>|</span>
+                    <a href="@Url.Action("Register","User")" class="navbar-brand">Register new Employee</a>
+              
+            }
+
+            @*<b>RESTAURANT RESERVATION SYSTEM</b>*@
+
         </div>
+        @*<div >
+                @if (Request.IsAuthenticated)
+                {
+                    <a href="@Url.Action("LogOut","User")" class="navbar-brand">Logout</a>
+                }
+            </div>*@
+
     </div>
+
+
+
 
     <div class="container body-content">
         @RenderBody()

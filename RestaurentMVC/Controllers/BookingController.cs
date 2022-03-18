@@ -13,9 +13,9 @@ namespace RestaurentMVC.Controllers
 {
     public class BookingController : Controller
     {
+        [Authorize]
         public ActionResult Index()
         {
-
             return View();
         }
 

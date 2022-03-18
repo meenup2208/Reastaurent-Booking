@@ -13,7 +13,7 @@ namespace RestaurentMVC.Models
 
         private void connection()
         {
-            string connectionstring = "Data Source=LAPTOP-5IQ1TLRU;Initial Catalog=BookingDatabase;Integrated Security=True";
+            string connectionstring = "Data Source=LAPTOP-FCT3Q2DO;Initial Catalog=MeenuDatabase;Integrated Security=True";
             //string constring = ConfigurationManager.ConnectionStrings["BookingsConn"].ToString();
             con = new SqlConnection(connectionstring);
         }
@@ -131,6 +131,7 @@ namespace RestaurentMVC.Models
 
             SqlCommand cmd = new SqlCommand("GetBookingsById", con);
             cmd.CommandType = CommandType.StoredProcedure;
+
             cmd.Parameters.AddWithValue("@Bookid", bookingid);
 
             SqlDataAdapter sd = new SqlDataAdapter(cmd);
