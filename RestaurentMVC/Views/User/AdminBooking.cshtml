@@ -1,0 +1,480 @@
+﻿
+<title>Bookings</title>
+
+<script>
+
+
+    function format(d) {
+
+        //var Createddate = function CDate() {
+        //    if (d.CreatedDate === null) return "";
+        //    var pattern = /Date\(([^)]+)\)/;
+        //    var results = pattern.exec(value);
+        //    var dt = new Date(parseFloat(results[1]));
+        //    return dt.getDate() + "/" + (dt.getMonth() + 1) + "/" + dt.getFullYear()
+        //}
+
+        function formatDate(date) {
+            if (date === null) return "";
+            var pattern = /Date\(([^)]+)\)/;
+            var results = pattern.exec(date);
+            var dt = new Date(parseFloat(results[1]));
+
+            return dt.getDate() + "/" + (dt.getMonth() + 1) + "/" + dt.getFullYear()
+        }
+       
+
+        return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+            '<tr>' +
+            '<td>Created By:</td>' +
+            '<td>' + d.CreatedBy + '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td>Created Date:</td>' +
+            '<td>' + formatDate(d.CreatedDate) + '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td>Modified By:</td>' +
+            '<td>' + d.ModifiedBy + '</td>' +
+            '</tr>' +
+            '<td>Modified Date:</td>' +
+            '<td>' + formatDate(d.ModifiedDate) + '</td>'
+        '</table>';
+    }
+
+    var dataTable;
+    $(document).ready(function () {
+
+        dataTable = $('#myBookings').DataTable(
+
+            {
+                "processing": true,
+                "serverSide": true,
+                "filter": true,
+                "scrollCollapse": false,
+                "responsive": true,
+                "order": [1, "asc"],
+                "dom": '<"top"Bf>rt<"bottom"ilp><"clear">',
+                buttons: [
+                    {
+                        extend: 'excel',
+                        download: 'open',
+                        exportOptions: {
+                            columns: [1, 2, 3, 4, 5, 6, 7]
+                        }
+                    },
+                    {
+                        extend: 'pdf',
+                        download: 'open',
+                        exportOptions: {
+                            columns: [1, 2, 3, 4, 5, 6, 7]
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        autoPrint: false,
+                        exportOptions: {
+                            columns: [1, 2, 3, 4, 5, 6, 7]
+                        }
+                    }
+                ],
+                responsive: {
+                    details: {
+                        type: 'column'
+                    }
+                },
+                "columnDefs": [
+                    {
+                        className: 'dt-control',
+                        orderable: false,
+                        targets: 0
+                    },
+                    { "targets": [1, 3, 6, 8], orderable: false, className: 'dt-head-center dt-body-center' },
+                    { "targets": [2, 4, 5, 7], className: 'dt-head-center dt-body-center' },
+
+                ],
+                "ajax": {
+
+                    "url": "/Booking/Bookinglist",
+
+                    "type": "POST",
+
+                    "datatype": "json"
+
+                },
+                "columns": [
+                    {
+                        "data": null, "autoWidth": true,
+                        "defaultContent": '<i onclick="toggleIcon(this)" class="glyphicon glyphicon-plus-sign"></i>',
+                    },
+                    {
+
+                        render: function (data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
+
+                    { "data": "Name", "autoWidth": true },
+
+                    { "data": "Phone", "autoWidth": true },
+
+                    { "data": "TypeOfDining", "autoWidth": true },
+
+                    {
+                        "data": "Date",
+                        "type": "datetime",
+                        "render": function (value) {
+                            if (value === null) return "";
+                            var pattern = /Date\(([^)]+)\)/;
+                            var results = pattern.exec(value);
+                            var dt = new Date(parseFloat(results[1]));
+                            return dt.getDate() + "/" + (dt.getMonth() + 1) + "/" + dt.getFullYear()
+                        },
+                        "autoWidth": true
+                    },
+
+                    { "data": "Time", "autoWidth": true },
+
+                    { "data": "Guest", "autoWidth": true },
+
+                    {
+                        "data": "Bookid",
+                        "render": function (data, type, full, meta) {
+                            return ('<a class="view "  title="View" onclick="getdata(' + full.Bookid + ')"><span class="glyphicon glyphicon-info-sign"></span></a> <a class="space edit" title="Edit" onclick="geteditdata(' + full.Bookid + ')"><span class="glyphicon glyphicon-edit"></a>  <a class="trash"  title="Delete" onclick="deletedata(' + full.Bookid + ')"><span class="glyphicon glyphicon-trash"></span></a>');
+                        }, "autoWidth": true
+                    },
+                    //{ "data": "CreatedBy", "autoWidth": true },
+                    //{ "data": "CreatedDate", "autoWidth": true },
+                    //{ "data": "ModifiedBy", "autoWidth": true },
+                    //{ "data": "ModifiedDate", "autoWidth": true }
+
+                ]
+
+            });
+        $('#myBookings tbody').on('click', 'td.dt-control', function () {
+            var tr = $(this).closest('tr');
+            var row = dataTable.row(tr);
+
+            if (row.child.isShown()) {
+                row.child.hide();
+                tr.removeClass('shown');
+            }
+            else {
+                row.child(format(row.data())).show();
+                tr.addClass('shown');
+            }
+        });
+
+    });
+
+
+
+    $(document).on('click', '#btnExcel', function () {
+        var info = dataTable.page.info();
+        pageLength = info.length;
+        dataTable.page.len(info.recordsTotal).draw();
+        setTimeout(allexcel, 2000);
+    });
+    function toggleIcon(x) {
+        x.classList.toggle("glyphicon-minus-sign");
+    }
+    function allexcel() {
+        $(".buttons-excel")[0].click();
+        setTimeout(current, 2000);
+    }
+    function current() {
+        dataTable.page.len(pageLength).draw();
+    }
+
+    function printalll() {
+        $.get("/Booking/Print", function (res) {
+            $("#printPreview").html(res);
+            $('#print').modal('show');
+        })
+
+    }
+    function printDiv() {
+        //$('#printmodal').modal('show');
+        $.get("/Booking/Print", function (res) {
+            $("#printPreview").html(res);
+            $('#print').modal('show');
+        });
+        setTimeout(getprint, 1000)
+    }
+    function getprint() {
+        window.frames["print_frame"].window.focus();
+        window.frames["print_frame"].window.print();
+    }
+
+
+
+    function createpopup() {
+        $.get("/Booking/Create", { operation: "Create" }, function (result) {
+
+            $('#modelbody1').html(result);
+
+            $('#exampleModal').modal('show');
+
+            var edit = document.getElementById("edit");
+            edit.style.display = 'none';
+            var save_edit = document.getElementById("save_edit");
+            save_edit.style.display = 'none';
+
+        })
+    }
+
+    function getdata(id) {
+        $.get("/Booking/View", { operation: "View", Bookid: id }, function (result) {
+
+            $('#modelbody1').html(result);
+            $('#exampleModal').modal('show');
+
+            var save = document.getElementById("save");
+            save.style.display = 'none';
+
+            $('#save_edit').prop('disabled', 'true');
+
+        })
+    }
+
+    function geteditdata(id) {
+        $.get("/Booking/Edit", { operation: "Edit", Bookid: id }, function (result) {
+
+            $('#modelbody1').html(result);
+            $('#exampleModal').modal('show');
+            var save = document.getElementById("save");
+            save.style.display = 'none';
+            var edit = document.getElementById("edit");
+            edit.style.visibility = 'hidden';
+
+
+        })
+    }
+
+    function deletedata(id) {
+        $.get("/Booking/Delete", { operation: "Delete", Bookid: id }, function (result) {
+
+            $('#modelbody1').html(result);
+            $('#exampleModal').modal('show');
+
+        })
+    }
+
+    function savechanges() {
+        var form = $('form[name="operationForm"]');
+        var modal = $('#exampleModal');
+        nameValidation();
+        validateGuest();
+        validateTime();
+        validatePhone();
+        form.validate();
+
+        if (!form.valid()) {
+            return;
+        }
+        else {
+            var data = form.serialize();
+            $.post("/Booking/Create", data, function (result) {
+                console.log(result);
+                if (result) {
+                    toastr.options = {
+                        "closeButton": true,
+                        "newestOnTop": false,
+                        "progressBar": true,
+                        "positionClass": "toast-bottom-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "200",
+                        "hideDuration": "1000",
+                        "timeOut": "3000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+                    toastr["success"]("Booking Created Successfully!")
+                    modal.modal('hide');
+
+                    dataTable.ajax.reload(null, false);
+                }
+            })
+        }
+    }
+
+
+    function save_editedchanges() {
+        var form = $('form[name="operationForm"]');
+        var modal = $('#exampleModal');
+        nameValidation();
+        validateGuest();
+        validateTime();
+        validatePhone();
+        form.validate();
+        if (!form.valid()) {
+            return;
+        }
+        else {
+            var data = form.serialize();
+
+            $.post("/Booking/Edit", data, function (result) {
+                if (result) {
+                    toastr.options = {
+                        "closeButton": true,
+                        "newestOnTop": false,
+                        "progressBar": true,
+                        "positionClass": "toast-bottom-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "200",
+                        "hideDuration": "1000",
+                        "timeOut": "3000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+                    toastr["success"]("Booking Updated Successfully!")
+                    modal.modal('hide');
+                    dataTable.ajax.reload(null, false);
+                }
+            })
+        }
+
+    }
+
+    function deletedataconfirm() {
+
+        var form = $('form[name="delete_form"]');
+        var modal = $('#exampleModal');
+        if (!form.valid()) {
+            return;
+        }
+        else {
+            var data = form.serialize();
+
+            $.post("/Booking/Delete", data, function (result) {
+                if (result) {
+                    toastr.options = {
+                        "closeButton": true,
+                        "newestOnTop": false,
+                        "progressBar": true,
+                        "positionClass": "toast-bottom-right",
+                        "preventDuplicates": false,
+                        "onclick": null,
+                        "showDuration": "200",
+                        "hideDuration": "1000",
+                        "timeOut": "3000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    }
+                    toastr["error"]("Booking deleted successfully!")
+                    modal.modal('hide');
+                    dataTable.ajax.reload(null, false);
+                }
+            })
+        }
+
+    }
+</script>
+
+
+<div>
+
+    <br />
+
+    <div style="margin-top:-30px;">
+
+        <button type="button" class="btn btn-success" style="margin-right:10px;" onclick="createpopup()">
+            New Booking
+        </button>
+
+        <div class="btn-group">
+            <button type="button" class="btn btn-danger" style="width: 60px; margin-right: -8px;" onclick="printDiv()">Print</button>
+            <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" style="width: 30px;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="glyphicon glyphicon-chevron-down"></span>
+            </button>
+            <div class="dropdown-menu drop">
+                <ul>
+                    <li class="dropdown-item" style="list-style: none; cursor: pointer" onclick="printalll()">Export to PDF</li>
+                    <li class="dropdown-item" style="list-style: none; cursor: pointer" id="btnExcel">Export to Excel</li>
+                </ul>
+
+            </div>
+        </div>
+
+        <div>
+            <input type="button" class="btn btn-info"value="Emplyee Info Table" onclick="location.href='@Url.Action("UserInfo", "User")'" />
+        </div>
+
+    </div>
+
+
+    <div>
+
+        <table id="myBookings" class="table  table-bordered dt-responsive nowrap" style="width:100%">
+
+            <thead style="background-color: #1C2833; color: white">
+
+                <tr>
+                    <th></th>
+                    <th>Sl.No</th>
+
+                    <th>Name</th>
+
+                    <th>Phone</th>
+
+                    <th>Dining Type</th>
+
+                    <th>Date</th>
+
+                    <th>Time (24 Hr Format)</th>
+
+                    <th>No.of Guests</th>
+
+                    <th>Action</th>
+                    @*<th>CreatedBy</th>
+                    <th>CreatedDate</th>
+                    <th>ModifiedBy</th>
+                    <th>ModifiedDate</th>*@
+
+                </tr>
+
+            </thead>
+
+        </table>
+
+
+    </div>
+
+
+
+</div>
+
+
+
+<div data-backdrop="static" class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="padding-left: 6%;">
+        <div class="modal-content" id="modelbody1" style="width:90%;">
+
+        </div>
+    </div>
+
+</div>
+
+<div data-backdrop="static" class="modal fade  bd-example-modal-lg" id="print" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document" style="justify-content: center">
+        <div class="modal-content" id="printPreview" style="width:100%;height:100%;background-color:antiquewhite;align-self:initial;">
+
+        </div>
+    </div>
+
+</div>
+
+
+
+

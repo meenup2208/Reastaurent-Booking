@@ -6,15 +6,15 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using BookingClassLibrary.Enum;
 using System.Web.Security;
+using System.Web.Services.Description;
 
 namespace RestaurentMVC.Controllers
 {
     public class UserController : Controller
     {
-        SqlConnection con = new SqlConnection("Data Source=LAPTOP-FCT3Q2DO;Initial Catalog=MeenuDatabase;Integrated Security=True");
-
-
+       
         // GET:Login this Action method simple return the Login View
         [HttpGet]
         public ActionResult Login()
@@ -27,26 +27,105 @@ namespace RestaurentMVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(User userObj)
         {
-            if (ModelState.IsValid)
+            UserDBHandler dbObj = new UserDBHandler();
+            Dictionary<string, Boolean> usercheck =dbObj.UserLogin(userObj.Email, userObj.Password);
+            if (usercheck["IsValid"])
             {
-                UserDBHandler dbObj = new UserDBHandler();
-                if (dbObj.UserLogin(userObj.Email, userObj.Password))
+                if (usercheck["IsAdmin"])
                 {
                     FormsAuthentication.SetAuthCookie(userObj.Email, false);
-                    return RedirectToAction("Index", "Booking");
-                    //ViewBag.Message = "Login Successfull";
-                    //ModelState.Clear();
+                    return RedirectToAction("AdminBooking", "User");
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Your Account doesnot Exist");                    
+                    FormsAuthentication.SetAuthCookie(userObj.Email, false);
+                    return RedirectToAction("Index", "Booking");
                 }
-                return View(userObj);
             }
             else
             {
-                return View(userObj);
+                ModelState.AddModelError("", "Your Account doesnot Exist");
             }
+                return View(userObj);       
+        }
+
+
+        [Authorize]
+        public ActionResult AdminBooking()
+        {
+            return View();
+        }
+
+        [Authorize]
+        public ActionResult UserInfo()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult UserDetails()
+        {
+            UserDBHandler dbObj = new UserDBHandler();
+            List<User> UserList = dbObj.GetAllUser();
+            return Json(new { data = UserList }, JsonRequestBehavior.AllowGet);
+        }
+
+
+
+            [Authorize]
+        [HttpGet]
+        public ActionResult Register(string Operation)
+        {
+            User userObj = new User();
+            if (Operation == Operations.Create.ToString())
+            {
+                userObj.operations = Operations.Create;
+            }
+            return PartialView("_UserOperation", userObj);
+        }
+
+        // Post:Register 
+        [Authorize]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Register(User userObj)
+        {
+            try
+            {
+            string loggedBY = User.Identity.Name;
+            userObj.CreatedBy = loggedBY;
+            userObj.ModifiedBy = loggedBY;
+
+            if (ModelState.IsValid)
+                {
+                    UserDBHandler dbObj = new UserDBHandler();
+
+                    if (!dbObj.IsExistingUser(userObj.Email))
+                    {
+
+                        if (dbObj.UserRegister(userObj))
+                        {
+                            FormsAuthentication.SetAuthCookie(userObj.Email, false);
+                            return RedirectToAction("UserInfo", "User");
+                        }
+                        else    {
+                            ModelState.AddModelError("", "something went wrong try later!");
+                        }
+                    }
+                    else   {
+                        ModelState.AddModelError("", "User with same email already exist!");
+                    }
+                }
+                else    {
+                    ModelState.AddModelError("", "Invalid EmailId or Password");
+                }
+            }
+
+            catch (Exception e)
+            {
+                ModelState.AddModelError("", e.Message);
+            }
+            return View();
         }
 
         public ActionResult LogOut()
@@ -56,59 +135,36 @@ namespace RestaurentMVC.Controllers
         }
 
         [HttpGet]
-        public ActionResult Register()
-        {
-            return View();
-        }
-
-        // Post:Register 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Register(User userObj)
+        public ActionResult UserEdit(string Operation, int UId)
         {
             try
             {
-                if (ModelState.IsValid)
+                UserDBHandler dbObj = new UserDBHandler();
+                User userObj = dbObj.GetUserById(UId);
+                if (Operation == Operations.Edit.ToString())
                 {
-                    //checking if user already exist
-                    if (!IsUserExist(userObj.Email))
-                    {
-                        string query = "insert into UserInfoTable (UId,UName,UEmail,UPassword,UPhonenumber,UPlace) values (3,@UName,@UEmail,@UPassword,@UPhonenumber,@UPlace)";
-                        using (SqlCommand cmd = new SqlCommand(query, con))
-                        {
-                            cmd.Connection = con;
-                            cmd.Parameters.AddWithValue("@UName", userObj.Name);
-                            cmd.Parameters.AddWithValue("@UEmail", userObj.Email);
-                            cmd.Parameters.AddWithValue("@UPassword", userObj.Password);
-                            cmd.Parameters.AddWithValue("@UPhonenumber", userObj.ContactNo);
-                            cmd.Parameters.AddWithValue("@UPlace", userObj.Place);
-
-
-                            con.Open();
-                            int i = cmd.ExecuteNonQuery();
-                            con.Close();
-                            if (i > 0)
-                            {
-                                FormsAuthentication.SetAuthCookie(userObj.Email, false);
-                                return RedirectToAction("Index", "Booking");
-                            }
-                            else
-                            {
-                                ModelState.AddModelError("", "something went wrong try later!");
-                            }
-                        }
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("", "User with same email already exist!");
-                    }
-
-
+                    userObj.operations = Operations.Edit;
                 }
-                else
+                return PartialView("_UserOperation", userObj);
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("", e.Message);
+            }
+            return View();
+        }
+        [HttpGet]
+        public ActionResult UserView(string Operation, int UId)
+        {
+            try{
+                UserDBHandler dbObj = new UserDBHandler();
+                User userObj = dbObj.GetUserById(UId);
+
+                if (Operation == Operations.View.ToString())
                 {
-                    ModelState.AddModelError("", "Invalid EmailId or Password");
+                    userObj.operations = Operations.View;
                 }
+                return PartialView("_UserOperation", userObj);
             }
             catch (Exception e)
             {
@@ -117,28 +173,68 @@ namespace RestaurentMVC.Controllers
             return View();
         }
 
-
-
-        private bool IsUserExist(string email)
+        [HttpPost]
+        public ActionResult EditSave(User userObj)
         {
-            bool IsUserExist = false;
-            string query = "select * from UserInfoTable where UEmail=@Email";
-            using (SqlCommand cmd = new SqlCommand(query, con))
+            try
             {
-                cmd.Parameters.AddWithValue("@Email", email);
-                SqlDataAdapter sda = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                sda.Fill(dt);
-                con.Open();
-                int i = cmd.ExecuteNonQuery();
-                con.Close();
-                if (dt.Rows.Count > 0)
+                UserDBHandler dbObj = new UserDBHandler();
+                string loggedBY = User.Identity.Name;
+                userObj.ModifiedBy = loggedBY;
+                if (ModelState.IsValid)
                 {
-                    IsUserExist = true;
+                    if (dbObj.UpdateUser(userObj))
+                    {
+                        ViewBag.Message = "Customer Details Updated Successfully";
+                    }
+                    return Json(true, JsonRequestBehavior.AllowGet);               
                 }
+                return Json(false, JsonRequestBehavior.AllowGet);
             }
-            return IsUserExist;
+            catch (Exception ex)
+            {
+                string error = ex.Message;
+                throw;
+            }
         }
 
+
+        [HttpGet]
+        public ActionResult DeleteUser(string operation, int UId)
+        {
+            try
+            {
+                UserDBHandler dbObj = new UserDBHandler();
+                User userObj = dbObj.GetUserById(UId);
+            if (operation == Operations.Delete.ToString())
+            {
+                userObj.operations = Operations.Delete;
+            }
+            return PartialView("_UserDelete", userObj);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Delete(int UId)
+        {
+            try
+            {
+                UserDBHandler dbObj = new UserDBHandler();
+                if (dbObj.DeleteUser(UId))
+                {
+                    ViewBag.AlertMsg = " Deleted Successfully";
+                    return Json(true, JsonRequestBehavior.AllowGet);
+                }
+                return Json(true, JsonRequestBehavior.AllowGet);
+            }
+            catch
+            {
+                throw;
+            }
+        }
     }
 }

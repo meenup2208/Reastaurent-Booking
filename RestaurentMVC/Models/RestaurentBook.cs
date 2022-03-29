@@ -25,7 +25,6 @@ namespace RestaurentMVC.Models
             SqlCommand cmd = new SqlCommand("UpdateBookings", con);
             cmd.CommandType = CommandType.StoredProcedure;
 
-
             cmd.Parameters.AddWithValue("@Bookid", smodel.Bookid);
             cmd.Parameters.AddWithValue("@Name", smodel.Name);
             cmd.Parameters.AddWithValue("@Phone", smodel.Phone);
@@ -34,6 +33,10 @@ namespace RestaurentMVC.Models
             cmd.Parameters.AddWithValue("@Time", smodel.Time);
             cmd.Parameters.AddWithValue("@Guest", smodel.Guest);
             cmd.Parameters.AddWithValue("@Delete", 0);
+            cmd.Parameters.AddWithValue("@CreatedBy",smodel.CreatedBy);
+            cmd.Parameters.AddWithValue("@CreatedDate", DateTime.Now);
+            cmd.Parameters.AddWithValue("@ModifiedBy", smodel.ModifiedBy);
+            cmd.Parameters.AddWithValue("@ModifiedDate", DateTime.Now);
 
             con.Open();
             int i = cmd.ExecuteNonQuery();
@@ -44,7 +47,6 @@ namespace RestaurentMVC.Models
             else
                 return false;
         }
-
 
         public List<Booking> GetBookings(int pagenumber, int pagesize, string search)
         {
@@ -75,7 +77,10 @@ namespace RestaurentMVC.Models
                         Date = Convert.ToDateTime(dr["Date"]),
                         Time = Convert.ToString(dr["Time"]),
                         Guest = Convert.ToInt32(dr["Guest"]),
-
+                        CreatedBy = Convert.ToString(dr["CreatedBy"]),
+                        CreatedDate = Convert.ToDateTime(dr["CreatedDate"]),
+                        ModifiedBy = Convert.ToString(dr["ModifiedBy"]),
+                        ModifiedDate = Convert.ToDateTime(dr["ModifiedDate"])
                     });
             }
             return list;
@@ -96,6 +101,8 @@ namespace RestaurentMVC.Models
             cmd.Parameters.AddWithValue("@Time", smodel.Time);
             cmd.Parameters.AddWithValue("@Guest", smodel.Guest);
             cmd.Parameters.AddWithValue("@Delete", smodel.Delete);
+            cmd.Parameters.AddWithValue("@ModifiedBy", smodel.ModifiedBy);
+            cmd.Parameters.AddWithValue("@ModifiedDate", DateTime.Now);
             con.Open();
             int i = cmd.ExecuteNonQuery();
             con.Close();
@@ -140,7 +147,6 @@ namespace RestaurentMVC.Models
             con.Open();
             sd.Fill(dt);
             con.Close();
-            //booking.Bookid = ;
             booking.Bookid = Convert.ToInt32(dt.Rows[0]["Bookid"]);
             booking.Name = Convert.ToString(dt.Rows[0]["Name"]);
             booking.Phone = Convert.ToString(dt.Rows[0]["Phone"]);
@@ -148,7 +154,7 @@ namespace RestaurentMVC.Models
             booking.Date = Convert.ToDateTime(dt.Rows[0]["Date"]);
             booking.Time = Convert.ToString(dt.Rows[0]["Time"]);
             booking.Guest = Convert.ToInt32(dt.Rows[0]["Guest"]);
-
+           
             return booking;
 
         }
@@ -179,6 +185,11 @@ namespace RestaurentMVC.Models
                         Date = Convert.ToDateTime(dr["Date"]),
                         Time = Convert.ToString(dr["Time"]),
                         Guest = Convert.ToInt32(dr["Guest"]),
+                        //CreatedBy = Convert.ToString(dr["CreatedBy"]),
+                        //CreatedDate = Convert.ToDateTime(dr["CreatedDate"]),
+                        //ModifiedBy = Convert.ToString(dr["ModifiedBy"]),
+                        //ModifiedDate = Convert.ToDateTime(dr["ModifiedDate"])
+
 
                     });
             }

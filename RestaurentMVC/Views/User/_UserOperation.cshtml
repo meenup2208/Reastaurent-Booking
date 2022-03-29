@@ -1,0 +1,250 @@
+﻿@model RestaurentMVC.Models.User
+    @using BookingClassLibrary.Enum
+
+
+<form name="userForm" id="userOperation">
+
+    <div class="modal-header" style="height:auto">
+
+        <button type="button" class="close" data-dismiss="modal" title="Close" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h2 style="text-align:center;color:black">User Det</h2>
+    </div>
+
+    <div class="modal-body">
+        <div style="background-color: #aab7b8; padding-left: 10%">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <br />
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.UId)
+                <div>
+                    <div class="form-horizontal" style="width:auto">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Designation, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Designation, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Designation, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ContactNo, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.ContactNo, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.ContactNo, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Place, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Place, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Place, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <br />
+
+                    </div>
+                </div>
+            }
+
+        </div>
+        <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+        <script src="~/Scripts/jquery.validate.min.js"></script>
+        <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
+    </div>
+
+    <div class="modal-footer">
+
+        <button type="button" id="Usave" class="btn btn-success" onclick="Usavechanges()">Add</button>
+        <button type="button" id="Uedit" class="btn btn-warning" onclick="Ueditchanges()">Edit Details</button>
+        <button type="button" id="Usave_edit" class="btn btn-success" onclick="Usave_editedchanges()">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    </div>
+
+</form>
+
+<script>
+    function Usavechanges() {
+        var form = $('form[name="userForm"]');
+        var modal = $('#userModal');
+
+        var data = form.serialize();
+        $.post("/User/Register", data, function (result) {
+            console.log(result);
+            if (result) {
+                toastr.options = {
+                    "closeButton": true,
+                    "newestOnTop": false,
+                    "progressBar": true,
+                    "positionClass": "toast-bottom-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "200",
+                    "hideDuration": "1000",
+                    "timeOut": "3000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                }
+                toastr["success"]("Booking Created Successfully!")
+                modal.modal('hide');
+
+                dataTable.ajax.reload(null, false);
+            }
+        })
+    }
+
+    function Usave_editedchanges() {
+        var form = $('form[name="userForm"]');
+        var modal = $('#userModal');
+        var data = form.serialize();
+        debugger
+        $.post("/User/EditSave", data, function (result) {
+            if (result) {
+                toastr.options = {
+                    "closeButton": true,
+                    "newestOnTop": false,
+                    "progressBar": true,
+                    "positionClass": "toast-bottom-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "200",
+                    "hideDuration": "1000",
+                    "timeOut": "3000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                }
+                toastr["success"]("Booking Updated Successfully!")
+                modal.modal('hide');
+                dataTable.ajax.reload(null, false);
+            }
+        })
+    }
+
+</script>
+@*<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        var operation = '@Model.operations.ToString()';
+
+        if (operation == '@Operations.Create' )
+        {
+            $('.form-control').attr('disabled', false);
+        }
+        if (operation == '@Operations.Edit')
+        {
+            $('.form-control').attr('disabled', false);
+
+        }
+        if (operation == '@Operations.View')
+        {
+            $('.form-control').attr('disabled', true);
+
+        }
+    });
+
+
+    function Ueditchanges() {
+        $('.form-control').attr('disabled', false);
+
+        var save = document.getElementById("Usave");
+        save.style.display = 'none';
+        document.getElementById("Uedit").disabled = true;
+        document.getElementById("Usave_edit").disabled = false;
+
+    }
+
+
+    //function nameValidation() {
+    //    var name = document.getElementById("name").value;
+    //    const specialChars = /^[A-z a-z]+$/;
+    //    if (name == "") {
+    //        document.getElementById("validate_name").textContent = "Name is required";
+
+    //    }
+    //    else if (document.operationForm.name.value.length > 0)
+    //    {
+    //        document.getElementById("validate_name").textContent = "";
+    //    }
+    //    else if (!$("#name").val().match(specialChars))
+    //    {
+    //        document.getElementById("validate_name").textContent = " Check name format ";
+    //    }
+    //    else if (!isNaN(name))
+    //    {
+    //        document.getElementById("validate_name").textContent = "Check name format";
+
+    //    }
+    //    else if (document.operationForm.name.value.length > 15)
+    //    {
+    //        document.getElementById("validate_name").textContent = "Large Name length ";
+
+    //    }
+    //    else if (document.operationForm.name.value.length < 3)
+    //    {
+    //        document.getElementById("validate_name").textContent = "Small Name length";
+    //    }
+    //    else
+    //    {
+    //        document.getElementById("validate_name").textContent = "";
+    //    }
+    //}
+
+
+    //function validatePhone() {
+    //    var expression = /^[0-9]+$/;
+    //    if (!$("#phone").val().match(expression) && $("#phone").val() != "") {
+    //        $("#phonevalidation").html("Please Provide Valid Contact Number");
+    //    }
+    //    else if ($("#phone").val() == "") {
+    //        $("#phonevalidation").html("Contact Number is Required");
+    //    }
+    //    else if ($("#phone").val().length >= 11) {
+    //        $("#phonevalidation").html("Contact must contain only 10 characters");
+    //    }
+    //    else if ($("#phone").val().length <= 9) {
+    //        $("#phonevalidation").html("Contact Number Not Valid");
+    //    }
+    //    else {
+    //        $("#phonevalidation").html("");
+    //    }
+    //}
+</script>*@
+

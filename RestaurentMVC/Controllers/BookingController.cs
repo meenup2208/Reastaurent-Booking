@@ -23,6 +23,7 @@ namespace RestaurentMVC.Controllers
         public ActionResult Create(string Operation)
         {
             Booking booking = new Booking();
+           
             if (Operation == Operations.Create.ToString())
             {
                 booking.operations = Operations.Create;
@@ -35,6 +36,10 @@ namespace RestaurentMVC.Controllers
         {
             try
             {
+                string loggedBY = User.Identity.Name;
+                bmodel.CreatedBy = loggedBY;
+                bmodel.ModifiedBy = loggedBY;
+
 
                 if (ModelState.IsValid)
                 {
@@ -105,7 +110,9 @@ namespace RestaurentMVC.Controllers
         public ActionResult Edit(Booking booking)
         {
             try
-            { 
+            {
+                string loggedBy = User.Identity.Name;
+                booking.ModifiedBy = loggedBy;
                 if (ModelState.IsValid)
                 {
                     RestaurentBook restaurentBook = new RestaurentBook();
@@ -116,14 +123,14 @@ namespace RestaurentMVC.Controllers
                     }
                     return Json(true, JsonRequestBehavior.AllowGet);
                 }
-
                 else
                 {
                     return View();
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                string error = ex.Message;
                 throw;
             }
 
@@ -185,22 +192,21 @@ namespace RestaurentMVC.Controllers
                 string sortDirection = Request["order[0][dir]"];
                 var search = Request.Form["search[value]"];
 
-                List<Booking> All_list = restaurentBook.AllBookings(search);
-                
+                List<Booking> All_list = restaurentBook.AllBookings(search);                
                 int recordsTotal = 0;
-                List<Booking> List = restaurentBook.GetBookings(start, length, search);
-                List = List.OrderBy(sortColumnName + " " + sortDirection).ToList<Booking>();
-
                 recordsTotal = All_list.Count();
-               
-                
+
+                List<Booking> List = restaurentBook.GetBookings(start, length, search);
+                List = List.OrderBy(sortColumnName + " " + sortDirection).ToList<Booking>();            
+                               
                 return Json(new { recordsTotal = recordsTotal, recordsFiltered = recordsTotal,  data = List}, JsonRequestBehavior.AllowGet);
 
-
             }
-            catch
+            catch(Exception ex)
             {
+                string error = ex.Message;
                 throw;
+
             }
         }
 
@@ -223,7 +229,7 @@ namespace RestaurentMVC.Controllers
                 table.Rows.Add(booking.Bookid, booking.Name, booking.Phone, booking.TypeOfDining, booking.Date, booking.Time, booking.Guest);
 
             var pdf = table.ToPdf();
-            System.IO.File.WriteAllBytes(@"C:\Users\user\Desktop\New folder\Meenu\Reastaurent-Booking\RestaurentMVC\Pdf\result.pdf", pdf);
+            System.IO.File.WriteAllBytes(@"C:\Users\user\source\repos\Meenu_Restaurant\Reastaurent-Booking\RestaurentMVC\Pdf\result.pdf", pdf);
             return PartialView("_Printview");
 
         }

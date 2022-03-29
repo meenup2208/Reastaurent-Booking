@@ -1,6 +1,6 @@
 ﻿@model RestaurentMVC.Models.User 
 
-<h2>Login</h2>
+
 
 <section id="loginForm">
 
@@ -9,29 +9,68 @@
         @Html.AntiForgeryToken()
 
         <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+        <style>
+            .login-card {
+                align-content: center;
+                border: 0;
+                border-radius: 30.5px;
+                box-shadow: 0 0px 30px 0 black; /*card shadow*/
+                overflow: hidden;
+                color: antiquewhite;
+                background-color: rgb(40 40 40);
+                height:fit-content;
+            }
+
+            .login-card-img {
+                position: absolute;
+                background-size: auto;
+                padding:10%;
+                height:fit-content;
+            }
+        </style>
+
+        <div class="container">
+            <div class="card login-card ">
+                <div class="row no-gutters">
+                    <div class="col-md-6">
+                        <div>
+                            <img src="../../../Restaurant.jpg" alt="Edit" class="login-card-img" width="500" height="600">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card-body">
+
+                            <h2>Login</h2>
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+                                <div class="col-md-10">
+                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+                                <div class="col-md-10">
+                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="submit" value="Login" class="btn btn-default" />
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-        
-        <div class="form-group">
-            @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-            </div>
-        </div>
-     
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Login" class="btn btn-default" />
-            </div>
+
         </div>
 
-        <br />
-    }
+            <br />
+            }
 </section>

@@ -477,7 +477,10 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\User\Login.cshtml" />
-    <Content Include="Views\User\Register.cshtml" />
+    <Content Include="Views\User\UserInfo.cshtml" />
+    <Content Include="Views\User\_UserOperation.cshtml" />
+    <Content Include="Views\User\AdminBooking.cshtml" />
+    <Content Include="Views\User\_UserDelete.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

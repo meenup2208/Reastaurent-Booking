@@ -11,35 +11,26 @@
 </head>
 <body style="background-color: #EFF1DB">
 
-    <div class="navbar navbar-inverse navbar-static-top">
+    @*<div class="navbar navbar-inverse navbar-static-top">*@
+    <div class="navbar navbar-inverse navbar-static-top" style="display:flex;">
         <div class="container-fluid" style="text-align:center">
+        @*<div style="text-align: center">*@
             <h2 style="color: white;">
                 RESTAURANT RESERVATION SYSTEM
 
-
             </h2>
+        </div>
+        <div style="justify-content:right,space-around; padding-top:1%">
+
             @if (Request.IsAuthenticated)
             {
-
                 <a href="@Url.Action("LogOut","User")" class="navbar-brand">Logout</a>
 
-               <span>|</span>
-                    <a href="@Url.Action("Register","User")" class="navbar-brand">Register new Employee</a>
-              
             }
-
-            @*<b>RESTAURANT RESERVATION SYSTEM</b>*@
-
         </div>
-        @*<div >
-                @if (Request.IsAuthenticated)
-                {
-                    <a href="@Url.Action("LogOut","User")" class="navbar-brand">Logout</a>
-                }
-            </div>*@
+
 
     </div>
-
 
 
 

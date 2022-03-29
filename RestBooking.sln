@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestBookAPI", "RestBookAPI\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RestaurentMVC", "RestaurentMVC\RestaurentMVC.csproj", "{45EFCA1E-7D94-4F0A-96B2-3AC1F7802D77}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserWebApi", "UserWebApi\UserWebApi.csproj", "{6E4321BE-7314-494B-AA91-46B642671731}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{45EFCA1E-7D94-4F0A-96B2-3AC1F7802D77}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{45EFCA1E-7D94-4F0A-96B2-3AC1F7802D77}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{45EFCA1E-7D94-4F0A-96B2-3AC1F7802D77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E4321BE-7314-494B-AA91-46B642671731}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E4321BE-7314-494B-AA91-46B642671731}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E4321BE-7314-494B-AA91-46B642671731}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E4321BE-7314-494B-AA91-46B642671731}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

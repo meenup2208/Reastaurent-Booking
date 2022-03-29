@@ -1,11 +1,5 @@
-﻿
-
-@{
-    ViewBag.Title = "Index";}
-
-
+﻿@{    ViewBag.Title = "Index";}
 <meta name="viewport" content="width=device-width" />
-
 <title>Bookings</title>
 
 <script>
@@ -18,7 +12,6 @@
                 "processing": true,
                 "serverSide": true,
                 "filter": true,
-                "scrollY": "380px",
                 "scrollCollapse": false,
                 "responsive": true,
                 "order": [1, "asc"],
@@ -111,8 +104,7 @@
                         "render": function (data, type, full, meta) {
                             return ('<a class="view "  title="View" onclick="getdata(' + full.Bookid + ')"><span class="glyphicon glyphicon-info-sign"></span></a> <a class="space edit" title="Edit" onclick="geteditdata(' + full.Bookid + ')"><span class="glyphicon glyphicon-edit"></a>  <a class="trash"  title="Delete" onclick="deletedata(' + full.Bookid + ')"><span class="glyphicon glyphicon-trash"></span></a>');
                         }, "autoWidth": true
-                    },
-
+                    }
                 ]
 
             });
@@ -359,11 +351,7 @@
             </div>
         </div>
     </div>
-    <div>
-
-
-    </div>
-
+  
 
     <div>
 
@@ -373,21 +361,16 @@
 
                 <tr>
                     <th></th>
+
                     <th>Sl.No</th>
-
                     <th>Name</th>
-
                     <th>Phone</th>
-
                     <th>Dining Type</th>
-
                     <th>Date</th>
-
                     <th>Time (24 Hr Format)</th>
-
                     <th>No.of Guests</th>
-
                     <th>Action</th>
+                  
 
                 </tr>
 

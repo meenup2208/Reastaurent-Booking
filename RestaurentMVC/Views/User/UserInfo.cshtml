@@ -1,0 +1,179 @@
+﻿
+<div>
+    <button type="button" class="btn btn-success" style="margin-right:10px;" onclick="registerPopup()">
+        Register new Employee
+    </button>
+
+    <div>
+        <input type="button" class="btn btn-info" value="Customer Booking Table" onclick="location.href='@Url.Action("AdminBooking", "User")'" />
+    </div>
+
+</div>
+
+<div style="margin:10px;margin-top:50px">
+
+    <table id="UserTable" class="table  table-bordered dt-responsive nowrap" style="width:100%">
+        <thead style="background-color: #1C2833; color: white">
+            <tr>
+                <th></th>
+                <th>Employee Name</th>
+                <th>Designation</th>
+                <th>Place</th>
+                <th>Email</th>
+                <th>Phone Numnber</th>
+                <th>Action</th>
+
+            </tr>
+        </thead>
+    </table>
+
+</div>
+
+<script>
+    function format(d) {
+        function formatDate(date) {
+            if (date === null) return "";
+            var pattern = /Date\(([^)]+)\)/;
+            var results = pattern.exec(date);
+            var dt = new Date(parseFloat(results[1]));
+            return dt.getDate() + "/" + (dt.getMonth() + 1) + "/" + dt.getFullYear()
+        }
+        return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+            '<tr>' +
+            '<td>Created By:</td>' +
+            '<td>' + d.CreatedBy + '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td>Created Date:</td>' +
+            '<td>' + formatDate(d.CreatedDate) + '</td>' +
+            '</tr>' +
+            '<tr>' +
+            '<td>Modified By:</td>' +
+            '<td>' + d.ModifiedBy + '</td>' +
+            '</tr>' +
+            '<td>Modified Date:</td>' +
+            '<td>' + formatDate(d.ModifiedDate) + '</td>'
+        '</table>';
+    }
+
+    $(document).ready(function () {
+
+        dataTable = $('#UserTable').DataTable(
+
+            {
+                "processing": true,
+                "serverSide": true,
+                "filter": true,
+                "dom": '<"top"f>rt<"bottom"ilBp><"clear">',
+                //"scrollY": "400px",
+                //"scrollX": "400px",
+                responsive: {
+                    details: {
+                        type: 'column'
+                    }
+                },
+                "columnDefs": [
+                    {
+                        className: 'dt-control',
+                        orderable: false,
+                        targets: 0
+                    }],
+
+                "ajax": {
+
+                    "url": "/User/UserDetails",
+
+                    "type": "Get",
+
+                    "datatype": "json"
+
+                },
+
+                "columns": [
+                    {
+                        "data": null, "autoWidth": true,
+                        "defaultContent": '<i onclick="toggleIcon(this)" class="glyphicon glyphicon-plus-sign"></i>',
+                    },
+                    { "data": "Name" },
+                    { "data": "Designation" },
+                    { "data": "Place" },
+                    { "data": "Email" },
+                    { "data": "ContactNo" },
+                    {
+                        "data": "UId",
+                        "render": function (UId) {
+                            return ('<a class="view "  title="View" onclick="ViewFn(' + UId + ')"><span class="glyphicon glyphicon-info-sign"></span></a> <a class="space edit" title="Edit" onclick="EditFn(' + UId + ')"><span class="glyphicon glyphicon-edit"></a> <a class="trash"  title="Delete" onclick="DeleteFn(' + UId + ')"><span class="glyphicon glyphicon-trash"></span></a>');
+                        }, "autoWidth": true
+                    }
+
+                ]
+            });
+        var dataTable;
+        $('#UserTable tbody').on('click', 'td.dt-control', function () {
+            var tr = $(this).closest('tr');
+            var row = dataTable.row(tr);
+
+            if (row.child.isShown()) {
+                row.child.hide();
+                tr.removeClass('shown');
+            }
+            else {
+                row.child(format(row.data())).show();
+                tr.addClass('shown');
+            }
+        });
+    });
+
+    function toggleIcon(x) {
+        x.classList.toggle("glyphicon-minus-sign");
+    }
+  
+    function registerPopup() {
+        $.get("/User/Register", { operation: "Create" }, function (result) {
+            $('#modelbody2').html(result);
+            $('#userModal').modal('show');
+            var edit = document.getElementById("Uedit");
+            edit.style.display = 'none';
+            var save_edit = document.getElementById("Usave_edit");
+            save_edit.style.display = 'none';
+        })
+    }
+    
+    function ViewFn(id) {
+        $.get("/User/UserView", { operation: "View", UId: id }, function (result) {
+            $('#modelbody2').html(result);
+            $('#userModal').modal('show');
+            var save = document.getElementById("Usave");
+            save.style.display = 'none';
+            $('#Usave_edit').prop('disabled', 'true');
+        })
+    }
+
+    function EditFn(id) {
+        $.get("/User/UserEdit", { operation: "Edit", UId: id }, function (result) {
+            $('#modelbody2').html(result);
+            $('#userModal').modal('show');
+            var save = document.getElementById("Usave");
+            save.style.display = 'none';
+            var edit = document.getElementById("Uedit");
+            edit.style.visibility = 'hidden';
+        })
+    }
+      
+    function DeleteFn(id) {
+        $.get("/User/DeleteUser", { operation: "Delete", UId: id }, function (result) {
+            $('#modelbody2').html(result);
+            $('#userModal').modal('show');
+        })
+    }
+
+</script>
+
+<div data-backdrop="static" class="modal fade" id="userModal" role="dialog" aria-labelledby="userModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="padding-left: 6%;">
+        <div class="modal-content" id="modelbody2" style="width:90%;">
+
+        </div>
+    </div>
+</div>
+
