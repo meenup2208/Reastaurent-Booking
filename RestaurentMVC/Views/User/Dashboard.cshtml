@@ -1,0 +1,101 @@
+﻿
+<style>
+  
+
+    .container-fluid {
+        padding: 10px 10px;
+    }
+
+    .bg-grey {
+        background-color: #f6f6f6;
+    }
+
+    .col-sm-4 {
+        padding: 0px 3px;
+        border: solid;
+        border-color: #EFF1DB;
+        height: 100px;
+    }
+
+    a {
+        color: orangered;
+    }
+
+</style>
+
+
+
+<div class="container-fluid bg-grey">
+
+    <div>
+        <br>
+    </div>
+    
+        <div class="col-sm-3">
+            <img src="../../../images/Restaurant.jpg" alt="Edit" class="login-card-img"  height="300">
+
+        </div>
+        <div class="col-sm-8">
+
+            <h2>
+                Have Good Food... Have Good Time..
+            </h2>
+            <div class="container-fluid text-center">
+
+                <br>
+             
+                </br>
+
+                <div class="row">
+
+                    <div class="col-sm-4">
+                        <br>   <a onclick="registerPopup()">Register User</a>
+
+                        <h4>@*Register User*@</h4>
+                        <p>Enter new employee details ..</p>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <br>
+                        <a onclick="location.href='@Url.Action("UserInfo", "User")'">User Table</a>
+
+                        <h4>@*User Table*@</h4>
+                        <p>View the employee information table...</p>
+                    </div>
+                   
+                    <div class="col-sm-4">
+                        <br>
+                        <a onclick="location.href='@Url.Action("AdminBooking", "User")'">Booking Table</a>
+                        <h4>@*Booking Table*@</h4>
+                        <p>View the customer Booking Table..</p>
+                    </div>
+                </div>
+
+
+        </div>
+  
+</div>
+
+<!-- Container (Services Section) -->
+
+
+<script>
+    function registerPopup() {
+        $.get("/User/Register", { operation: "Create" }, function (result) {
+            $('#modelbody2').html(result);
+            $('#userModal').modal('show');
+            var edit = document.getElementById("Uedit");
+            edit.style.display = 'none';
+            var save_edit = document.getElementById("Usave_edit");
+            save_edit.style.display = 'none';
+        })
+    }
+</script>
+
+<div data-backdrop="static" class="modal fade" id="userModal" role="dialog" aria-labelledby="userModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="padding-left: 6%;">
+        <div class="modal-content" id="modelbody2" style="width:90%;">
+
+        </div>
+    </div>
+</div>

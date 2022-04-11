@@ -44,11 +44,58 @@ namespace RestaurentMVC.Models
             {               
                 returnObj["IsValid"]= true;
                 returnObj["IsAdmin"]= Convert.ToInt32(dt.Rows[0]["IsAdmin"]) == 1;
-            }
-          
+            }          
             return returnObj;
 
         }
+
+        public User ForgetPassword(string email,string name, string place)
+        {
+            connection();
+
+            SqlCommand cmd = new SqlCommand("ForgetPassword", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@email", email);
+            cmd.Parameters.AddWithValue("@name", name);
+            cmd.Parameters.AddWithValue("@place", place);
+
+            SqlDataAdapter sda = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            sda.Fill(dt);
+
+            con.Open();
+            int i = cmd.ExecuteNonQuery();
+            con.Close();
+            User userObj = new User();
+
+            userObj.UId = Convert.ToInt32(dt.Rows[0]["UId"]);
+            userObj.Name = Convert.ToString(dt.Rows[0]["UName"]);
+            userObj.Email = Convert.ToString(dt.Rows[0]["UEmail"]);
+            userObj.Place = Convert.ToString(dt.Rows[0]["UPlace"]);
+
+            return userObj;
+
+        }
+
+        public bool ResetPassword(int id, string password)
+        {
+            connection();
+            SqlCommand cmd = new SqlCommand("ResetPassword", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@UId", id);
+            cmd.Parameters.AddWithValue("@password", password);
+            con.Open();
+            int i = cmd.ExecuteNonQuery();
+            con.Close();
+
+            if (i >= 1)
+                return true;
+            else
+                return false;
+        }
+
+
 
         public List<User> GetAllUser()
         {
@@ -75,12 +122,19 @@ namespace RestaurentMVC.Models
                         Designation = Convert.ToString(dr["UDesignation"]),
                         Email = Convert.ToString(dr["UEmail"]),
                         Place = Convert.ToString(dr["UPlace"]),
-                        CreatedBy = Convert.ToString(dr["CreatedBy"]),
+                        CreatedBy = Convert.ToInt32(dr["CreatedBy"]),
                         CreatedDate = Convert.ToDateTime(dr["CreatedDate"]),
-                        ModifiedBy = Convert.ToString(dr["ModifiedBy"]),
+                        ModifiedBy = Convert.ToInt32(dr["ModifiedBy"]),
                         ModifiedDate = Convert.ToDateTime(dr["ModifiedDate"])
 
                     });
+                foreach (var n in userList)
+                {
+                    var Createduser = GetUserById(n.CreatedBy);
+                    var Modifieduser = GetUserById(n.ModifiedBy);
+                    n.CreatedName = Createduser.Name;
+                    n.ModifiedName = Modifieduser.Name;
+                }
             }
             return userList;
         }
@@ -98,7 +152,7 @@ namespace RestaurentMVC.Models
             cmd.Parameters.AddWithValue("@UPassword", userObj.Password);
             cmd.Parameters.AddWithValue("@UPhonenumber", userObj.ContactNo);
             cmd.Parameters.AddWithValue("@UPlace", userObj.Place);
-            cmd.Parameters.AddWithValue("@IsAdmin", 0);
+            cmd.Parameters.AddWithValue("@IsAdmin", userObj.IsAdmin);
             cmd.Parameters.AddWithValue("@Delete", 0);
             cmd.Parameters.AddWithValue("@CreatedDate", DateTime.Now);
             cmd.Parameters.AddWithValue("@CreatedBy", userObj.CreatedBy);
@@ -140,7 +194,33 @@ namespace RestaurentMVC.Models
             userObj.Designation = Convert.ToString(dt.Rows[0]["UDesignation"]);
             userObj.Email = Convert.ToString(dt.Rows[0]["UEmail"]);
             userObj.Place = Convert.ToString(dt.Rows[0]["UPlace"]);
-         
+                     
+            return userObj;
+        }
+
+        public User GetUserByEmail(string loggedEmail)
+        {
+            connection();
+            User userObj = new User();
+
+            SqlCommand cmd = new SqlCommand("GetUserByEmail", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@UEmail", loggedEmail);
+
+            SqlDataAdapter sd = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+
+            con.Open();
+            sd.Fill(dt);
+            con.Close();
+            userObj.UId = Convert.ToInt32(dt.Rows[0]["UId"]);
+            userObj.Name = Convert.ToString(dt.Rows[0]["UName"]);
+            userObj.ContactNo = Convert.ToString(dt.Rows[0]["UPhonenumber"]);
+            userObj.Designation = Convert.ToString(dt.Rows[0]["UDesignation"]);
+            userObj.Email = Convert.ToString(dt.Rows[0]["UEmail"]);
+            userObj.Place = Convert.ToString(dt.Rows[0]["UPlace"]);
+
             return userObj;
         }
 

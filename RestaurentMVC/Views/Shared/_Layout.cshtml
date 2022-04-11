@@ -13,8 +13,17 @@
 
     @*<div class="navbar navbar-inverse navbar-static-top">*@
     <div class="navbar navbar-inverse navbar-static-top" style="display:flex;">
+
+        <div style="justify-content:left,space-around; padding-top:1%">
+
+            @if (Request.IsAuthenticated)
+            {
+                <strong class="navbar-brand"> @Html.ViewContext.HttpContext.User.Identity.Name</strong>
+            }
+        </div>
+
         <div class="container-fluid" style="text-align:center">
-        @*<div style="text-align: center">*@
+            @*<div style="text-align: center">*@
             <h2 style="color: white;">
                 RESTAURANT RESERVATION SYSTEM
 

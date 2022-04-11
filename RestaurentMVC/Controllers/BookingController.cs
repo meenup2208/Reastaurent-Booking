@@ -7,7 +7,7 @@ using System.Web.Mvc;
 using RestaurentMVC.Models;
 using BookingClassLibrary.Enum;
 using ArrayToPdf;
-using System.Data;
+using System.Data; 
 
 namespace RestaurentMVC.Controllers
 {
@@ -36,7 +36,11 @@ namespace RestaurentMVC.Controllers
         {
             try
             {
-                string loggedBY = User.Identity.Name;
+            
+                string loggedEmail = User.Identity.Name;
+                UserDBHandler dbObj = new UserDBHandler();
+                User getObj = dbObj.GetUserByEmail(loggedEmail);
+                int loggedBY = getObj.UId;
                 bmodel.CreatedBy = loggedBY;
                 bmodel.ModifiedBy = loggedBY;
 
@@ -111,8 +115,16 @@ namespace RestaurentMVC.Controllers
         {
             try
             {
-                string loggedBy = User.Identity.Name;
-                booking.ModifiedBy = loggedBy;
+                string loggedEmail = User.Identity.Name;
+                UserDBHandler dbObj = new UserDBHandler();
+                User getObj = dbObj.GetUserByEmail(loggedEmail);
+                int loggedBY = getObj.UId;
+                booking.CreatedBy = loggedBY;
+                booking.ModifiedBy = loggedBY;
+
+
+
+
                 if (ModelState.IsValid)
                 {
                     RestaurentBook restaurentBook = new RestaurentBook();
@@ -192,12 +204,13 @@ namespace RestaurentMVC.Controllers
                 string sortDirection = Request["order[0][dir]"];
                 var search = Request.Form["search[value]"];
 
+                List<Booking> List = restaurentBook.GetBookings(start, length, search);
+                List = List.OrderBy(sortColumnName + " " + sortDirection).ToList<Booking>();
+
                 List<Booking> All_list = restaurentBook.AllBookings(search);                
                 int recordsTotal = 0;
                 recordsTotal = All_list.Count();
-
-                List<Booking> List = restaurentBook.GetBookings(start, length, search);
-                List = List.OrderBy(sortColumnName + " " + sortDirection).ToList<Booking>();            
+                                     
                                
                 return Json(new { recordsTotal = recordsTotal, recordsFiltered = recordsTotal,  data = List}, JsonRequestBehavior.AllowGet);
 
@@ -206,7 +219,6 @@ namespace RestaurentMVC.Controllers
             {
                 string error = ex.Message;
                 throw;
-
             }
         }
 

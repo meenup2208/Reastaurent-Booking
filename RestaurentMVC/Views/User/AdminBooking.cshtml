@@ -6,14 +6,6 @@
 
     function format(d) {
 
-        //var Createddate = function CDate() {
-        //    if (d.CreatedDate === null) return "";
-        //    var pattern = /Date\(([^)]+)\)/;
-        //    var results = pattern.exec(value);
-        //    var dt = new Date(parseFloat(results[1]));
-        //    return dt.getDate() + "/" + (dt.getMonth() + 1) + "/" + dt.getFullYear()
-        //}
-
         function formatDate(date) {
             if (date === null) return "";
             var pattern = /Date\(([^)]+)\)/;
@@ -27,7 +19,7 @@
         return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
             '<tr>' +
             '<td>Created By:</td>' +
-            '<td>' + d.CreatedBy + '</td>' +
+            '<td>' + d.CreatedName + '</td>' +
             '</tr>' +
             '<tr>' +
             '<td>Created Date:</td>' +
@@ -35,7 +27,7 @@
             '</tr>' +
             '<tr>' +
             '<td>Modified By:</td>' +
-            '<td>' + d.ModifiedBy + '</td>' +
+            '<td>' + d.ModifiedName + '</td>' +
             '</tr>' +
             '<td>Modified Date:</td>' +
             '<td>' + formatDate(d.ModifiedDate) + '</td>'
@@ -407,9 +399,6 @@
             </div>
         </div>
 
-        <div>
-            <input type="button" class="btn btn-info"value="Emplyee Info Table" onclick="location.href='@Url.Action("UserInfo", "User")'" />
-        </div>
 
     </div>
 

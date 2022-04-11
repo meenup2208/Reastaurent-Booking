@@ -481,6 +481,8 @@
     <Content Include="Views\User\_UserOperation.cshtml" />
     <Content Include="Views\User\AdminBooking.cshtml" />
     <Content Include="Views\User\_UserDelete.cshtml" />
+    <Content Include="Views\User\ForgetPassword.cshtml" />
+    <Content Include="Views\User\Dashboard.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

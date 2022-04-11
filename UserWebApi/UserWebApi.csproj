@@ -91,7 +91,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DAL\UserApiDBHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -24,9 +24,10 @@
             .login-card-img {
                 position: absolute;
                 background-size: auto;
-                padding:10%;
-                height:fit-content;
+                padding: 9%;
+               
             }
+
         </style>
 
         <div class="container">
@@ -34,11 +35,11 @@
                 <div class="row no-gutters">
                     <div class="col-md-6">
                         <div>
-                            <img src="../../../Restaurant.jpg" alt="Edit" class="login-card-img" width="500" height="600">
+                            <img src="../../../images/RestaurantLogin.jpg" alt="Edit" class="login-card-img" width="500" height="300">
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="card-body">
+                        <div class="card-body" style="align-content:center;padding-left:10px">
 
                             <h2>Login</h2>
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -62,6 +63,10 @@
                                 <div class="col-md-offset-2 col-md-10">
                                     <input type="submit" value="Login" class="btn btn-default" />
                                 </div>
+                            </div>
+
+                            <div style="padding-left:80px">
+                                <a href="@Url.Action("ForgetPassword","User")" class="navbar-brand">Forgot Password</a>
                             </div>
 
                         </div>

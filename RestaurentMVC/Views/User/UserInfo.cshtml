@@ -4,10 +4,6 @@
         Register new Employee
     </button>
 
-    <div>
-        <input type="button" class="btn btn-info" value="Customer Booking Table" onclick="location.href='@Url.Action("AdminBooking", "User")'" />
-    </div>
-
 </div>
 
 <div style="margin:10px;margin-top:50px">
@@ -41,7 +37,7 @@
         return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
             '<tr>' +
             '<td>Created By:</td>' +
-            '<td>' + d.CreatedBy + '</td>' +
+            '<td>' + d.CreatedName + '</td>' +
             '</tr>' +
             '<tr>' +
             '<td>Created Date:</td>' +
@@ -49,7 +45,7 @@
             '</tr>' +
             '<tr>' +
             '<td>Modified By:</td>' +
-            '<td>' + d.ModifiedBy + '</td>' +
+            '<td>' + d.ModifiedName + '</td>' +
             '</tr>' +
             '<td>Modified Date:</td>' +
             '<td>' + formatDate(d.ModifiedDate) + '</td>'

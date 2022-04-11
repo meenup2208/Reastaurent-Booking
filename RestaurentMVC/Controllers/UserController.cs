@@ -13,14 +13,47 @@ using System.Web.Services.Description;
 namespace RestaurentMVC.Controllers
 {
     public class UserController : Controller
-    {
-       
+    {       
         // GET:Login this Action method simple return the Login View
         [HttpGet]
         public ActionResult Login()
         {
             return View();
         }
+
+        [HttpGet]
+        public ActionResult ForgetPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ForgetPassword(User userObj)
+        {
+            UserDBHandler dbObj = new UserDBHandler();
+            User user = dbObj.ForgetPassword(userObj.Email, userObj.Name, userObj.Place);
+            
+            if (user!=null)
+            {
+                var reset = dbObj.ResetPassword(user.UId,userObj.Password);
+                return RedirectToAction("Login", "User");
+
+            }
+                      
+            else
+            {
+                ModelState.AddModelError("", "Your Account doesnot Exist");
+            }
+            return View(userObj);
+        }
+
+        [Authorize]
+        public ActionResult Dashboard()
+        {
+            return View();
+
+        }
+
 
         //Post:When user click on the submit button then this method will call
         [HttpPost]
@@ -34,7 +67,7 @@ namespace RestaurentMVC.Controllers
                 if (usercheck["IsAdmin"])
                 {
                     FormsAuthentication.SetAuthCookie(userObj.Email, false);
-                    return RedirectToAction("AdminBooking", "User");
+                    return RedirectToAction("Dashboard", "User");
                 }
                 else
                 {
@@ -92,13 +125,15 @@ namespace RestaurentMVC.Controllers
         {
             try
             {
-            string loggedBY = User.Identity.Name;
-            userObj.CreatedBy = loggedBY;
-            userObj.ModifiedBy = loggedBY;
+            string loggedEmail = User.Identity.Name;
+                UserDBHandler dbObj = new UserDBHandler();
+                User getObj = dbObj.GetUserByEmail(loggedEmail);
+                int loggedBY= getObj.UId;
+                userObj.CreatedBy = loggedBY;
+                userObj.ModifiedBy = loggedBY;
 
             if (ModelState.IsValid)
                 {
-                    UserDBHandler dbObj = new UserDBHandler();
 
                     if (!dbObj.IsExistingUser(userObj.Email))
                     {
@@ -134,6 +169,7 @@ namespace RestaurentMVC.Controllers
             return RedirectToAction("Login", "User");
         }
 
+
         [HttpGet]
         public ActionResult UserEdit(string Operation, int UId)
         {
@@ -153,6 +189,7 @@ namespace RestaurentMVC.Controllers
             }
             return View();
         }
+
         [HttpGet]
         public ActionResult UserView(string Operation, int UId)
         {
@@ -178,18 +215,19 @@ namespace RestaurentMVC.Controllers
         {
             try
             {
+                string loggedEmail = User.Identity.Name;
                 UserDBHandler dbObj = new UserDBHandler();
-                string loggedBY = User.Identity.Name;
+
+                User getObj = dbObj.GetUserByEmail(loggedEmail);
+                int loggedBY = getObj.UId;
                 userObj.ModifiedBy = loggedBY;
-                if (ModelState.IsValid)
+
+                if (dbObj.UpdateUser(userObj))
                 {
-                    if (dbObj.UpdateUser(userObj))
-                    {
-                        ViewBag.Message = "Customer Details Updated Successfully";
-                    }
-                    return Json(true, JsonRequestBehavior.AllowGet);               
+                    ViewBag.Message = "Customer Details Updated Successfully";
                 }
-                return Json(false, JsonRequestBehavior.AllowGet);
+                return Json(true, JsonRequestBehavior.AllowGet);                               
+               
             }
             catch (Exception ex)
             {
@@ -206,11 +244,11 @@ namespace RestaurentMVC.Controllers
             {
                 UserDBHandler dbObj = new UserDBHandler();
                 User userObj = dbObj.GetUserById(UId);
-            if (operation == Operations.Delete.ToString())
-            {
-                userObj.operations = Operations.Delete;
-            }
-            return PartialView("_UserDelete", userObj);
+                if (operation == Operations.Delete.ToString())
+                {
+                    userObj.operations = Operations.Delete;
+                }
+                return PartialView("_UserDelete", userObj);
             }
             catch
             {

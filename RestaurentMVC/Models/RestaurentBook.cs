@@ -77,11 +77,20 @@ namespace RestaurentMVC.Models
                         Date = Convert.ToDateTime(dr["Date"]),
                         Time = Convert.ToString(dr["Time"]),
                         Guest = Convert.ToInt32(dr["Guest"]),
-                        CreatedBy = Convert.ToString(dr["CreatedBy"]),
+                        CreatedBy = Convert.ToInt32(dr["CreatedBy"]),
                         CreatedDate = Convert.ToDateTime(dr["CreatedDate"]),
-                        ModifiedBy = Convert.ToString(dr["ModifiedBy"]),
+                        ModifiedBy = Convert.ToInt32(dr["ModifiedBy"]),
                         ModifiedDate = Convert.ToDateTime(dr["ModifiedDate"])
                     });
+                foreach (var n in list)
+                {
+                    UserDBHandler dbObj = new UserDBHandler();
+
+                    var Createduser = dbObj.GetUserById(n.CreatedBy);
+                    var Modifieduser = dbObj.GetUserById(n.ModifiedBy);
+                    n.CreatedName = Createduser.Name;
+                    n.ModifiedName = Modifieduser.Name;
+                }
             }
             return list;
         }
@@ -101,6 +110,8 @@ namespace RestaurentMVC.Models
             cmd.Parameters.AddWithValue("@Time", smodel.Time);
             cmd.Parameters.AddWithValue("@Guest", smodel.Guest);
             cmd.Parameters.AddWithValue("@Delete", smodel.Delete);
+            cmd.Parameters.AddWithValue("@CreatedBy", smodel.CreatedBy);
+            cmd.Parameters.AddWithValue("@CreatedDate", DateTime.Now);
             cmd.Parameters.AddWithValue("@ModifiedBy", smodel.ModifiedBy);
             cmd.Parameters.AddWithValue("@ModifiedDate", DateTime.Now);
             con.Open();
@@ -185,10 +196,6 @@ namespace RestaurentMVC.Models
                         Date = Convert.ToDateTime(dr["Date"]),
                         Time = Convert.ToString(dr["Time"]),
                         Guest = Convert.ToInt32(dr["Guest"]),
-                        //CreatedBy = Convert.ToString(dr["CreatedBy"]),
-                        //CreatedDate = Convert.ToDateTime(dr["CreatedDate"]),
-                        //ModifiedBy = Convert.ToString(dr["ModifiedBy"]),
-                        //ModifiedDate = Convert.ToDateTime(dr["ModifiedDate"])
 
 
                     });

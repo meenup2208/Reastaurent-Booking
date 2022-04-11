@@ -40,11 +40,14 @@ namespace RestaurentMVC.Models
 
         public bool IsAdmin { get; set; }
         public bool IsDelete { get; set; }
-        public string CreatedBy { get; set; }
+        public int CreatedBy { get; set; }
+        public string CreatedName { get; set; }
         public DateTime CreatedDate { get; set; }
-        public string ModifiedBy { get; set; }
+        public int ModifiedBy { get; set; }
+        public string ModifiedName { get; set; }
         public DateTime ModifiedDate { get; set; }
         public Operations operations { get; set; }
+
 
     }
 }

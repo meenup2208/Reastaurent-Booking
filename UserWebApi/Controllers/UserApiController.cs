@@ -13,7 +13,7 @@ using Newtonsoft.Json;
 
 namespace UserWebApi.Controllers
 {
-    [RoutePrefix("api/User")]
+    [RoutePrefix("api/UserApi")]
     public class UserApiController : ApiController
     {
         [HttpGet]
@@ -50,12 +50,14 @@ namespace UserWebApi.Controllers
         [Route("CreateUsers")]
         public string CreateUsers(User userObj)
         {
-          
-                string loggedBY = User.Identity.Name;
-                userObj.CreatedBy = loggedBY;
-                userObj.ModifiedBy = loggedBY;
 
-                UserDBHandler dbObj = new UserDBHandler();
+            string loggedEmail = User.Identity.Name;
+            UserDBHandler dbObj = new UserDBHandler();
+            //User getObj = dbObj.GetUserByEmail(loggedEmail);
+            //int loggedBY = getObj.UId;
+            userObj.CreatedBy = 1;
+            userObj.ModifiedBy = 1;
+
             if (ModelState.IsValid)
             {
                 if (!dbObj.IsExistingUser(userObj.Email))
@@ -91,11 +93,13 @@ namespace UserWebApi.Controllers
         {
             try
             {
-                bool result = false;
+                string loggedEmail = User.Identity.Name;
                 UserDBHandler dbObj = new UserDBHandler();
-                User dataObj = dbObj.GetUserById(userObj.UId);
-                userObj.ModifiedBy = User.Identity.Name;
-                result = dbObj.UpdateUser(userObj);
+
+              
+                userObj.ModifiedBy = 1;
+
+                var result = dbObj.UpdateUser(userObj);
                 ModelState.Clear();                              
                 return JsonConvert.SerializeObject(result);
             }
